@@ -1,0 +1,28 @@
+Django==4.2.7
+djangorestframework==3.14.0
+django-cors-headers==4.3.1
+psycopg2-binary>=2.9.10
+python-dotenv>=1.0.1
+openai>=1.10.0
+google-generativeai>=0.8.0
+
+# Document extraction - Latest Unstructured library with required format support
+unstructured[pdf,docx,doc,rtf]==0.18.11
+
+# Elasticsearch for advanced search
+elasticsearch==7.17.0
+django-elasticsearch-dsl==7.3.0
+elasticsearch-dsl==7.4.0
+
+# Optional: OCR support for scanned documents
+pytesseract==0.3.10
+Pillow>=11.3.0
+celery==5.3.4
+redis==5.0.1
+gunicorn==21.2.0
+whitenoise==6.6.0
+drf-spectacular==0.27.0
+django-filter==23.5
+python-magic==0.4.27
+requests==2.31.0
+dj-database-url==2.1.0 

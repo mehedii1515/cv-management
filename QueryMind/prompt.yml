@@ -1,0 +1,39 @@
+prompt_format: "yaml"
+
+extract_data:
+  rules:
+    - Follow types and null values strictly
+    
+  query:
+    document_type: { "type": "string", "values": ["Resume", "Other"] }
+
+  basic_information:
+    name: { "type": "string", "default": "!" }
+    address: { "type": "string", "default": "!" }
+    date_of_birth: { "type": "string", "default": "!" }
+    age: { "type": "integer", "default": -1 }
+    nationality: { "type": "string", "default": "!" }
+      gender: { "type": "string", "default": "!" }
+
+    contact_information:
+      mobile_number: { "type": "string", "default": "!" }
+      other_mobile_numbers: { "type": "list", "subtype": "string", "default": [] }
+      email_address: { "type": "string", "default": "!" }
+      contact_address: { "type": "string", "default": "!" }
+
+    education_and_expertise:
+      degree: { "type": "string", "default": "!" }
+      institution: { "type": "string", "default": "!" }
+      year_of_graduation: { "type": "string", "default": "!" }
+      area_of_expertise: { "type": "list", "subtype": "string", "default": [] }
+      other_certifications: { "type": "list", "subtype": "string", "default": [] }
+
+    work_experience:
+      current_position_description: { "type": "string", "default": "!" }
+      current_company: { "type": "string", "default": "!" }
+      previous_work_positions: { "type": "list", "subtype": "string", "default": [] }
+      countries_of_experience: { "type": "list", "subtype": "string", "default": [] }
+      career_start_date: { "type": "string", "default": "!" }
+      other_jobs_not_relating_to_education: { "type": "list", "subtype": "string", "default": [] }
+
+output_format: "json"

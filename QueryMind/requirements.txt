@@ -1,0 +1,11 @@
+Spire.doc
+openai
+python-dotenv
+pyyaml
+transformers
+torch
+tiktoken
+pandas
+openpyxl
+pypdf
+striprtf

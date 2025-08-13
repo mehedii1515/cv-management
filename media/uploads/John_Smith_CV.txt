@@ -1,0 +1,47 @@
+John Smith CV
+Software Developer
+
+Contact Information:
+Email: john.smith@email.com
+Phone: +1-555-0123
+Location: New York, USA
+
+Professional Summary:
+Experienced software developer with 5+ years in full-stack development.
+Specializes in Python, Django, JavaScript, and React development.
+
+Technical Skills:
+- Programming: Python, JavaScript, Java, C++
+- Frameworks: Django, React, Node.js, Express
+- Databases: PostgreSQL, MySQL, MongoDB
+- Tools: Git, Docker, AWS, Jenkins
+
+Professional Experience:
+
+Software Developer | TechCorp Inc. | 2020-Present
+- Developed web applications using Django and React
+- Implemented RESTful APIs and microservices architecture
+- Collaborated with cross-functional teams on agile projects
+- Optimized database queries resulting in 40% performance improvement
+
+Junior Developer | StartupXYZ | 2019-2020
+- Built responsive web interfaces using HTML, CSS, JavaScript
+- Contributed to backend development using Python and Django
+- Participated in code reviews and testing processes
+
+Education:
+Bachelor of Science in Computer Science
+University of Technology, 2019
+
+Projects:
+- E-commerce Platform: Full-stack web application with payment integration
+- Task Management System: React-based project management tool
+- Data Analytics Dashboard: Python-based reporting system
+
+Certifications:
+- AWS Certified Developer Associate
+- Django Web Framework Certificate
+
+Languages:
+- English (Native)
+- Spanish (Conversational)
