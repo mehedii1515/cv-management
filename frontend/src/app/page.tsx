@@ -213,7 +213,17 @@ export default function Dashboard() {
                     <CardTitle>Resume Database</CardTitle>
                     <CardDescription>
                       {hasActiveSearch
-                        ? `Showing ${filteredResumes?.length || 0} search results`
+                        ? (() => {
+                            const totalResults = pagination.count || 0;
+                            const currentPage = pagination.currentPage || 1;
+                            const pageSize = pagination.pageSize || 10;
+                            const startResult = totalResults > 0 ? (currentPage - 1) * pageSize + 1 : 0;
+                            const endResult = Math.min(currentPage * pageSize, totalResults);
+                            
+                            return totalResults > 0 
+                              ? `Showing ${startResult} to ${endResult} of ${totalResults} results`
+                              : 'No results found';
+                          })()
                         : 'Enter search terms or apply filters to find resumes'
                       }
                     </CardDescription>
