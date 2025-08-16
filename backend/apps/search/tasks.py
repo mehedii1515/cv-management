@@ -260,3 +260,153 @@ def monitor_querymind_integration():
     except Exception as e:
         logger.error(f"QueryMind monitoring failed: {e}")
         return {'status': 'error', 'error': str(e)}
+
+
+@shared_task(bind=True, max_retries=3)
+def index_resume_file(self, resume_id):
+    """
+    Index a resume file for file search functionality
+    
+    Args:
+        resume_id: UUID of the resume whose file should be indexed
+        
+    Returns:
+        dict: Result of file indexing operation
+    """
+    try:
+        resume = Resume.objects.get(id=resume_id)
+        
+        if not resume.file_path:
+            logger.warning(f"Resume {resume_id} has no file_path - skipping file indexing")
+            return {
+                'status': 'skipped',
+                'resume_id': str(resume_id),
+                'reason': 'No file path'
+            }
+        
+        # Import file service
+        from apps.search.file_search_service import FileSearchService
+        from django.core.files.storage import default_storage
+        import os
+        
+        file_service = FileSearchService()
+        
+        # Ensure file index exists
+        if not file_service.es_client:
+            logger.error(f"Elasticsearch client not available for resume {resume_id}")
+            return {
+                'status': 'error',
+                'resume_id': str(resume_id),
+                'error': 'Elasticsearch not available'
+            }
+        
+        # Check if file index exists, create if it doesn't
+        try:
+            from apps.search.file_documents import FileDocument
+            if not FileDocument._index.exists(using=file_service.es_client):
+                logger.info("File index doesn't exist, creating it...")
+                file_service.create_file_index()
+        except Exception as index_error:
+            logger.warning(f"Could not verify/create file index: {index_error}")
+        
+        # Get the actual file path
+        if default_storage.exists(resume.file_path):
+            if hasattr(default_storage, 'path'):
+                actual_file_path = default_storage.path(resume.file_path)
+            else:
+                actual_file_path = resume.file_path
+            
+            # Determine base directory (media uploads directory)
+            base_directory = os.path.dirname(actual_file_path)
+            
+            # Index the file
+            success = file_service.index_file(actual_file_path, base_directory)
+            
+            if success:
+                logger.info(f"Successfully indexed resume file: {resume.original_filename} (ID: {resume_id})")
+                return {
+                    'status': 'success',
+                    'resume_id': str(resume_id),
+                    'filename': resume.original_filename,
+                    'file_path': resume.file_path
+                }
+            else:
+                logger.error(f"Failed to index resume file: {resume.file_path}")
+                return {
+                    'status': 'error',
+                    'resume_id': str(resume_id),
+                    'error': 'File indexing failed'
+                }
+        else:
+            logger.error(f"Resume file does not exist: {resume.file_path}")
+            return {
+                'status': 'error',
+                'resume_id': str(resume_id),
+                'error': 'File does not exist'
+            }
+            
+    except Resume.DoesNotExist:
+        logger.error(f"Resume {resume_id} does not exist")
+        return {
+            'status': 'error',
+            'resume_id': str(resume_id),
+            'error': 'Resume not found'
+        }
+    except Exception as e:
+        logger.error(f"Error indexing resume file {resume_id}: {e}")
+        if self.request.retries < self.max_retries:
+            logger.info(f"Retrying file indexing for resume {resume_id} (attempt {self.request.retries + 1})")
+            raise self.retry(countdown=60 * (2 ** self.request.retries))
+        
+        return {
+            'status': 'error',
+            'resume_id': str(resume_id),
+            'error': str(e)
+        }
+
+
+@shared_task(bind=True, max_retries=3)
+def delete_resume_file_from_index(self, file_path):
+    """
+    Remove a resume file from the file search index
+    
+    Args:
+        file_path: Path of the file to remove from index
+        
+    Returns:
+        dict: Result of file deletion operation
+    """
+    try:
+        # Import file service
+        from apps.search.file_search_service import FileSearchService
+        
+        file_service = FileSearchService()
+        
+        # Remove from file index
+        success = file_service.delete_file_from_index(file_path)
+        
+        if success:
+            logger.info(f"Successfully removed file from index: {file_path}")
+            return {
+                'status': 'success',
+                'file_path': file_path
+            }
+        else:
+            logger.warning(f"Failed to remove file from index: {file_path}")
+            return {
+                'status': 'error',
+                'file_path': file_path,
+                'error': 'File removal failed'
+            }
+            
+    except Exception as e:
+        logger.error(f"Error removing file from index {file_path}: {e}")
+        if self.request.retries < self.max_retries:
+            logger.info(f"Retrying file removal for {file_path} (attempt {self.request.retries + 1})")
+            raise self.retry(countdown=30 * (2 ** self.request.retries))
+        
+        return {
+            'status': 'error',
+            'file_path': file_path,
+            'error': str(e)
+        }
