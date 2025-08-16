@@ -7,7 +7,9 @@ from django.http import JsonResponse, FileResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.conf import settings
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.permissions import AllowAny
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.response import Response
 from rest_framework import status
 from .file_search_service import FileSearchService
@@ -16,6 +18,7 @@ logger = logging.getLogger(__name__)
 file_service = FileSearchService()
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def view_file(request):
     """View or download a file"""
     try:
@@ -126,10 +129,27 @@ def view_file(request):
             'message': str(e)
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-@api_view(['POST'])
+@csrf_exempt
+@api_view(['POST', 'GET'])
+@authentication_classes([])
+@permission_classes([AllowAny])
 def search_files_only(request):
     """Search files directly (not database records)"""
     try:
+        # Add debugging information
+        logger.info(f"Search request received - Method: {request.method}")
+        logger.info(f"Request headers: {dict(request.headers)}")
+        logger.info(f"Request user: {request.user}")
+        logger.info(f"Request authenticated: {request.user.is_authenticated if hasattr(request, 'user') else 'No user'}")
+        
+        # Handle GET request for testing
+        if request.method == 'GET':
+            return Response({
+                'status': 'success',
+                'message': 'Search endpoint is accessible',
+                'method': request.method
+            }, status=status.HTTP_200_OK)
+        
         data = request.data
         query = data.get('query', '').strip()
         
@@ -188,6 +208,7 @@ def search_files_only(request):
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def file_suggestions(request):
     """Get file search suggestions"""
     try:

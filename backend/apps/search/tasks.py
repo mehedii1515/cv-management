@@ -48,11 +48,23 @@ def index_single_cv(self, resume_id):
         
         # Try to extract file content
         try:
-            if resume.cv_file and hasattr(resume.cv_file, 'path'):
+            if resume.file_path:
                 from pathlib import Path
-                file_path = Path(resume.cv_file.path)
-                if file_path.exists():
-                    doc.file_content = doc.extract_file_content(str(file_path))
+                from django.core.files.storage import default_storage
+                
+                # Get the full file path
+                if default_storage.exists(resume.file_path):
+                    if hasattr(default_storage, 'path'):
+                        # For local storage, get the actual file path
+                        file_path = Path(default_storage.path(resume.file_path))
+                    else:
+                        # For other storage backends, use the file_path as is
+                        file_path = Path(resume.file_path)
+                    
+                    if file_path.exists():
+                        doc.file_content = doc.extract_file_content(str(file_path))
+                    else:
+                        doc.file_content = ""
                 else:
                     doc.file_content = ""
             else:

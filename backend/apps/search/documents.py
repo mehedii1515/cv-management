@@ -47,49 +47,71 @@ class CVDocument(Document):
     
     def prepare_extracted_text(self, instance):
         """Extract text from uploaded file (DTSearch-like functionality)"""
-        if instance.file and hasattr(instance.file, 'path'):
+        if instance.file_path:
             try:
-                return self.extract_file_content(instance.file.path)
+                from django.core.files.storage import default_storage
+                if default_storage.exists(instance.file_path):
+                    if hasattr(default_storage, 'path'):
+                        file_path = default_storage.path(instance.file_path)
+                        return self.extract_file_content(file_path)
+                    else:
+                        return self.extract_file_content(instance.file_path)
             except Exception as e:
-                print(f"Error extracting text from {instance.file.path}: {e}")
+                print(f"Error extracting text from {instance.file_path}: {e}")
                 return ""
         return ""
     
     def prepare_filename(self, instance):
         """Get filename from file field"""
-        if instance.file:
-            return os.path.basename(instance.file.name)
+        if instance.original_filename:
+            return instance.original_filename
+        elif instance.file_path:
+            return os.path.basename(instance.file_path)
         return ""
     
     def prepare_file_path(self, instance):
         """Get full file path"""
-        if instance.file and hasattr(instance.file, 'path'):
-            return instance.file.path
+        if instance.file_path:
+            from django.core.files.storage import default_storage
+            if hasattr(default_storage, 'path') and default_storage.exists(instance.file_path):
+                return default_storage.path(instance.file_path)
+            return instance.file_path
         return ""
     
     def prepare_file_size(self, instance):
         """Get file size"""
-        if instance.file and hasattr(instance.file, 'path'):
+        if instance.file_path:
             try:
-                return os.path.getsize(instance.file.path)
+                from django.core.files.storage import default_storage
+                if hasattr(default_storage, 'path') and default_storage.exists(instance.file_path):
+                    file_path = default_storage.path(instance.file_path)
+                    return os.path.getsize(file_path)
             except:
-                return 0
+                pass
         return 0
     
     def prepare_file_type(self, instance):
         """Get file extension"""
-        if instance.file:
-            return os.path.splitext(instance.file.name)[1].lower()
+        if instance.file_type:
+            return instance.file_type.lower()
+        elif instance.original_filename:
+            return os.path.splitext(instance.original_filename)[1].lower()
+        elif instance.file_path:
+            return os.path.splitext(instance.file_path)[1].lower()
         return ""
     
     def prepare_content_hash(self, instance):
         """Generate hash for duplicate detection"""
-        if instance.file and hasattr(instance.file, 'path'):
+        if instance.file_path:
             try:
-                with open(instance.file.path, 'rb') as f:
-                    return hashlib.md5(f.read()).hexdigest()
+                from django.core.files.storage import default_storage
+                if hasattr(default_storage, 'path') and default_storage.exists(instance.file_path):
+                    file_path = default_storage.path(instance.file_path)
+                    with open(file_path, 'rb') as f:
+                        return hashlib.md5(f.read()).hexdigest()
             except:
-                return ""
+                pass
+        return ""
         return ""
     
     def prepare_indexed_date(self, instance):

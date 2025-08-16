@@ -329,7 +329,7 @@ class Resume(models.Model):
     def extract_file_modification_date(self, file_path):
         """
         Extract file modification date from file metadata if available.
-        Returns None if not available or accessible.
+        Returns timezone-aware datetime or None if not available or accessible.
         """
         try:
             if default_storage.exists(file_path):
@@ -340,8 +340,11 @@ class Resume(models.Model):
                         stat = os.stat(full_path)
                         # Use modification time (when file was last changed)
                         from datetime import datetime
+                        from django.utils import timezone
                         modification_time = stat.st_mtime
-                        return datetime.fromtimestamp(modification_time)
+                        # Create timezone-aware datetime
+                        naive_dt = datetime.fromtimestamp(modification_time)
+                        return timezone.make_aware(naive_dt)
                     except (AttributeError, OSError):
                         pass
         except Exception:
