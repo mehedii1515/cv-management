@@ -35,6 +35,46 @@ def Extract_Text_From_DOC(FileName: str, max_tokens=500) -> str:
         doc_text = ""
     return doc_text
 
+def Convert_DOC_to_DOCX(input_path: str) -> bytes:
+    """Convert .doc file to .docx format and return as bytes"""
+    try:
+        # Load the DOC file
+        doc = Document()
+        doc.LoadFromFile(input_path)
+        
+        # Create temporary DOCX file
+        import tempfile
+        import os
+        with tempfile.NamedTemporaryFile(suffix='.docx', delete=False) as temp_file:
+            temp_docx_path = temp_file.name
+        
+        # Save as DOCX
+        doc.SaveToFile(temp_docx_path, FileFormat.Docx2016)
+        doc.Close()
+        
+        # Read the DOCX file as bytes
+        try:
+            with open(temp_docx_path, 'rb') as f:
+                docx_content = f.read()
+            
+            # Clean up temporary file
+            os.unlink(temp_docx_path)
+            
+            return docx_content
+            
+        except Exception as read_ex:
+            print(f"Error reading converted DOCX file: {read_ex}")
+            # Clean up on error
+            try:
+                os.unlink(temp_docx_path)
+            except:
+                pass
+            return None
+            
+    except Exception as ex:
+        print(f"DOC to DOCX conversion error: {type(ex).__name__}, {ex.args}")
+        return None
+
 def Extract_Text_From_pdf(FileName: str) -> str:
     pdf_text = ""
     try:

@@ -107,31 +107,31 @@ def send_cv_to_resume_parser(file_path: str, file_name: str) -> bool:
     try:
         file_extension = file_name.split('.')[-1].lower()
         
-        # For .doc files, extract text first and send as .txt to avoid LibreOffice dependency
+        # For .doc files, convert to .docx format for better structured extraction
         if file_extension == 'doc':
-            print(f"🔄 Converting .doc to text for resume parser: {file_name}")
+            print(f"🔄 Converting .doc to .docx for resume parser: {file_name}")
             
-            # Extract text using QueryMind's Spire.doc
-            doc_text = fs.Extract_Text_From_DOC(file_path)
+            # Convert DOC to DOCX using QueryMind's Spire.doc
+            docx_content = fs.Convert_DOC_to_DOCX(file_path)
             
-            if not doc_text.strip():
-                print(f"⚠️ No text extracted from {file_name}")
+            if not docx_content:
+                print(f"⚠️ Failed to convert {file_name} to DOCX format")
                 return False
             
-            # Create a temporary text file
+            # Create a temporary DOCX file
             import tempfile
-            with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False, encoding='utf-8') as temp_file:
-                temp_file.write(doc_text)
+            with tempfile.NamedTemporaryFile(suffix='.docx', delete=False) as temp_file:
+                temp_file.write(docx_content)
                 temp_file_path = temp_file.name
             
             try:
-                # Send the text file instead
+                # Send the DOCX file instead
                 with open(temp_file_path, 'rb') as f:
-                    txt_filename = file_name.replace('.doc', '.txt')
-                    files = {'file': (txt_filename, f)}
+                    docx_filename = file_name.replace('.doc', '.docx')
+                    files = {'file': (docx_filename, f)}
                     data = {
                         'parse_immediately': True,
-                        'source': 'QueryMind_AutoDetect_DOC_Converted',
+                        'source': 'QueryMind_AutoDetect_DOC_to_DOCX',
                         'auto_detected': True,
                         'original_filename': file_name,
                         'timestamp': datetime.now().isoformat()
@@ -145,7 +145,7 @@ def send_cv_to_resume_parser(file_path: str, file_name: str) -> bool:
                     )
                     
                     if response.status_code in [200, 201]:
-                        print(f"✅ CV sent to resume parser (converted to text): {file_name}")
+                        print(f"✅ CV sent to resume parser (converted to DOCX): {file_name}")
                         return True
                     else:
                         print(f"⚠️ Resume parser API error for {file_name}: {response.status_code}")

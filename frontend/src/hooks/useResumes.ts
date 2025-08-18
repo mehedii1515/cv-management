@@ -66,8 +66,8 @@ export function useResumes() {
           params.append('skills', skill)
         })
         
-        filters.experience?.forEach((exp: string) => {
-          params.append('experience', exp)
+        filters.experience_level?.forEach((exp: string) => {
+          params.append('experience_level', exp)
         })
       }
       
