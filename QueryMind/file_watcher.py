@@ -251,6 +251,7 @@ def main():
         # Your actual server folders
         watch_folders = [
             r"\\server\MSL-DATA\PROJECTS\INCOMING",
+            r"\\server\MSL-DATA",
             r"\\server\MSL-DATA\SHARED\NEW_DOCUMENTS",
             r"\\server\MSL-DATA\HR\APPLICATIONS",
             ".\\DROPPED PROJECTS\\"  # Test folder

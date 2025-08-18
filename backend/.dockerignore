@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Django
+*.log
+db.sqlite3
+media/
+staticfiles/
+
+# Environment files
+.env
+.env.example
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Migrations (keep structure, ignore data)
+**/migrations/*.py
+!**/migrations/__init__.py
+
+# Elasticsearch data
+elasticsearch-7.17.0/data/
+
+# Poppler (will be installed in container)
+poppler-*/

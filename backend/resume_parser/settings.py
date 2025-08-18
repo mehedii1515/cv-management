@@ -21,7 +21,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-dev-key-change-in-producti
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,192.168.0.171,192.168.1.152').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,192.168.0.171,192.168.1.152,nginx,backend').split(',')
 
 # Application definition
 DJANGO_APPS = [
@@ -170,7 +170,7 @@ REST_FRAMEWORK = {
 # CORS settings
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "http://127.0.0.1:3000",
+    "http://127.0.0.1:3000", 
     "http://192.168.0.171:3000",
     "http://192.168.0.154:3000",
     "http://192.168.1.152:3000",
@@ -180,6 +180,11 @@ CORS_ALLOWED_ORIGINS = [
 FRONTEND_URL = os.getenv('FRONTEND_URL')
 if FRONTEND_URL:
     CORS_ALLOWED_ORIGINS.append(FRONTEND_URL)
+
+# Add CORS origins from environment for Docker deployment
+CORS_ORIGINS_ENV = os.getenv('CORS_ALLOWED_ORIGINS')
+if CORS_ORIGINS_ENV:
+    CORS_ALLOWED_ORIGINS.extend(CORS_ORIGINS_ENV.split(','))
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -245,7 +250,7 @@ LOGGING = {
 # Elasticsearch Configuration
 ELASTICSEARCH_DSL = {
     'default': {
-        'hosts': 'localhost:9200',
+        'hosts': os.getenv('ELASTICSEARCH_HOST', 'elasticsearch:9200'),
         'timeout': 60,
         'max_retries': 3,
         'retry_on_timeout': True
