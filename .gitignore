@@ -144,4 +144,4 @@ celerybeat.pid
 # mypy
 .mypy_cache/
 .dmypy.json
-dmypy.json
+dmypy.jsonelasticsearch-7.17.0/
