@@ -145,3 +145,4 @@ celerybeat.pid
 .mypy_cache/
 .dmypy.json
 dmypy.jsonelasticsearch-7.17.0/
+elasticsearch-7.17.0/
