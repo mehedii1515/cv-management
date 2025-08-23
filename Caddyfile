@@ -3,23 +3,40 @@
 
 # Main application server
 {$DOMAIN:localhost:8080} {
-    # Reverse proxy to Django application
-    reverse_proxy localhost:8000
-
-    # Enable compression for better performance
-    encode gzip
-
-    # Static files handling (if needed as fallback)
-    handle /static/* {
-        root * backend/staticfiles
-        file_server
+    # Django API routes (highest priority)
+    handle /api/* {
+        reverse_proxy localhost:8000
     }
 
-    # Media files handling - backend/media folder
+    # Django admin routes
+    handle /admin* {
+        reverse_proxy localhost:8000
+    }
+
+    # Django media files handling - backend/media folder
     handle /media/* {
         root * backend
         file_server
     }
+
+    # Django static files (if needed as fallback)
+    handle /django-static/* {
+        root * backend/staticfiles
+        file_server
+    }
+
+    # Next.js built assets
+    handle /_next/* {
+        reverse_proxy localhost:3000
+    }
+
+    # All other routes go to Next.js frontend
+    handle {
+        reverse_proxy localhost:3000
+    }
+
+    # Enable compression for better performance
+    encode gzip
 
     # Security headers
     header {
