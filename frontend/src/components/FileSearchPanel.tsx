@@ -17,6 +17,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Slider } from '@/components/ui/slider'
 import { Separator } from '@/components/ui/separator'
 import { Calendar } from '@/components/ui/calendar'
+import { EnhancedFileViewer } from '@/components/EnhancedFileViewer'
 import { format } from 'date-fns'
 import { 
   Search, 
@@ -35,7 +36,7 @@ import {
   Languages
 } from 'lucide-react'
 
-interface FileSearchResult {
+export interface FileSearchResult {
   file_id: string
   filename: string
   file_path: string

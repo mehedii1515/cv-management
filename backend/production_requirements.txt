@@ -1,0 +1,15 @@
+# Additional production requirements for Windows deployment
+# Install with: pip install -r production_requirements.txt
+# (Run this from backend/ directory with venv activated)
+
+# WSGI Server for Windows production
+waitress==3.0.0
+
+# Static file serving optimization
+whitenoise==6.5.0
+
+# Database optimization (if you want to upgrade from SQLite)
+# psycopg2-binary==2.9.7  # Uncomment for PostgreSQL
+
+# Logging improvements
+python-json-logger==2.0.7

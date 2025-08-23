@@ -19,6 +19,8 @@ file_urlpatterns = [
     path('directories', file_views.get_indexed_directories, name='indexed_directories'),
     path('status', file_views.file_search_status, name='file_search_status'),
     path('view', file_views.view_file, name='view_file'),
+    path('info', file_views.get_file_info, name='get_file_info'),
+    path('content', file_views.get_file_content, name='get_file_content'),
 ]
 
 urlpatterns = [

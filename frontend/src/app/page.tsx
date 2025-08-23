@@ -12,7 +12,7 @@ import { StatsCards } from '@/components/StatsCards'
 import { SearchFilters } from '@/components/SearchFilters'
 import { DTSearchPanel } from '@/components/DTSearchPanel'
 import { FileSearchPanel } from '@/components/FileSearchPanel'
-import { FileViewer } from '@/components/FileViewer'
+import { EnhancedFileViewer } from '@/components/EnhancedFileViewer'
 import { Breadcrumb } from '@/components/Breadcrumb'
 import { PageHeader } from '@/components/PageHeader'
 import { useResumes } from '@/hooks/useResumes'
@@ -426,7 +426,7 @@ export default function Dashboard() {
 
       {/* File Viewer Dialog */}
       {selectedFile && (
-        <FileViewer 
+        <EnhancedFileViewer 
           filePath={selectedFile.file_path}
           fileName={selectedFile.filename}
           onClose={() => setSelectedFile(null)}

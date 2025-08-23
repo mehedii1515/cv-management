@@ -1,0 +1,55 @@
+# Caddyfile for Windows production deployment
+# Place this file in the same directory as Caddy executable
+
+# Main application server
+{$DOMAIN:localhost:8080} {
+    # Reverse proxy to Django application
+    reverse_proxy localhost:8000
+
+    # Enable compression for better performance
+    encode gzip
+
+    # Static files handling (if needed as fallback)
+    handle /static/* {
+        root * backend/staticfiles
+        file_server
+    }
+
+    # Media files handling - backend/media folder
+    handle /media/* {
+        root * backend
+        file_server
+    }
+
+    # Security headers
+    header {
+        # Security headers for office environment
+        X-Content-Type-Options nosniff
+        X-Frame-Options DENY
+        X-XSS-Protection "1; mode=block"
+        Referrer-Policy strict-origin-when-cross-origin
+        
+        # Remove server information
+        -Server
+    }
+
+    # Logging for monitoring
+    log {
+        output file logs/caddy_access.log {
+            roll_size 10MB
+            roll_keep 5
+        }
+        format json
+    }
+
+    # Error handling
+    handle_errors {
+        @502 expression {http.error.status_code} == 502
+        respond @502 "Application server is temporarily unavailable. Please try again in a moment." 502
+    }
+}
+
+# Optional: Redirect HTTP to HTTPS (uncomment if using domain name)
+# http://{$DOMAIN} {
+#     redir https://{$DOMAIN}{uri}
+# }
