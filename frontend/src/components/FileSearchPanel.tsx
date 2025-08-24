@@ -232,14 +232,15 @@ export function FileSearchPanel({ onSelectResult, className = '' }: FileSearchPa
                 </SelectContent>
               </Select>
               
-              <Button 
+              {/* Temporarily commented out Filter button */}
+              {/* <Button 
                 variant={showFilters ? "secondary" : "outline"} 
                 size="icon" 
                 onClick={() => setShowFilters(!showFilters)}
                 title="Toggle filters"
               >
                 <Filter className="h-4 w-4" />
-              </Button>
+              </Button> */}
             </div>
           </div>
         </CardHeader>
@@ -288,8 +289,8 @@ export function FileSearchPanel({ onSelectResult, className = '' }: FileSearchPa
             </div>
           </div>
 
-          {/* Filters Panel */}
-          {showFilters && (
+          {/* Temporarily commented out Filters Panel */}
+          {/* {showFilters && (
             <div className="bg-gray-50 p-4 rounded-lg space-y-4">
               <div className="flex items-center justify-between">
                 <h3 className="font-medium">Search Filters</h3>
@@ -299,7 +300,6 @@ export function FileSearchPanel({ onSelectResult, className = '' }: FileSearchPa
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {/* File Type Filter */}
                 <div className="space-y-2">
                   <Label>File Type</Label>
                   <Select
@@ -320,9 +320,7 @@ export function FileSearchPanel({ onSelectResult, className = '' }: FileSearchPa
                   </Select>
                 </div>
 
-
                 
-                {/* File Size Filter */}
                 <div className="space-y-2">
                   <Label>Min Size (KB)</Label>
                   <Input 
@@ -349,7 +347,6 @@ export function FileSearchPanel({ onSelectResult, className = '' }: FileSearchPa
                   />
                 </div>
                 
-                {/* Date Range Filters */}
                 <div className="space-y-2">
                   <Label>Modified Date</Label>
                   <div className="flex gap-2">
@@ -396,7 +393,7 @@ export function FileSearchPanel({ onSelectResult, className = '' }: FileSearchPa
                 </div>
               </div>
             </div>
-          )}
+          )} */}
           
           {/* Search Type Info */}
           {searchType === 'boolean' && (
