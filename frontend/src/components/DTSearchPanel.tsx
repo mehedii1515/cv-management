@@ -34,16 +34,17 @@ import {
   ChevronRight,
   Database,
   Activity,
-  TrendingUp
+  TrendingUp,
+  Eye
 } from 'lucide-react'
 import { useDTSearch } from '@/hooks/useDTSearch'
+import { ResumeCard } from '@/components/ResumeCard'
 
 interface DTSearchPanelProps {
-  onSelectResult?: (result: any) => void
   className?: string
 }
 
-export function DTSearchPanel({ onSelectResult, className = '' }: DTSearchPanelProps) {
+export function DTSearchPanel({ className = '' }: DTSearchPanelProps) {
   const {
     // Search State
     results,
@@ -89,6 +90,69 @@ export function DTSearchPanel({ onSelectResult, className = '' }: DTSearchPanelP
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [selectedMode, setSelectedMode] = useState<'smart' | 'basic' | 'boolean'>('smart')
   const [showHelp, setShowHelp] = useState(false)
+  const [selectedResult, setSelectedResult] = useState<any>(null) // For showing resume details dialog
+  const [loadingDetails, setLoadingDetails] = useState(false) // For loading state when fetching full resume
+
+  // Function to handle viewing resume details
+  const handleViewDetails = async (result: any) => {
+    setLoadingDetails(true)
+    try {
+      // Fetch the complete resume details using the resume ID
+      const response = await fetch(`http://localhost:8000/api/resumes/${result.id}/`)
+      if (response.ok) {
+        const fullResumeData = await response.json()
+        setSelectedResult(fullResumeData)
+      } else {
+        // Fallback to limited DTSearch data if API call fails
+        console.warn('Failed to fetch full resume details, using DTSearch data')
+        const resumeData = {
+          id: result.id,
+          full_name: result.name,
+          email: result.email,
+          phone: result.phone,
+          location: result.location,
+          current_employer: result.current_employer,
+          years_of_experience: result.years_of_experience || 0,
+          total_experience_months: result.years_of_experience ? result.years_of_experience * 12 : 0,
+          experience_display: `${result.years_of_experience || 0} years`,
+          summary: result.summary,
+          skills: result.skills,
+          skill_keywords: result.skills ? result.skills.split(',').map((s: string) => s.trim()) : [],
+          processing_status: 'completed',
+          file_path: result.file_path,
+          work_experience: result.experience || '',
+          extracted_text: result.text_content || '',
+          upload_date: new Date().toISOString().split('T')[0], // Fallback date
+        }
+        setSelectedResult(resumeData)
+      }
+    } catch (error) {
+      console.error('Error fetching resume details:', error)
+      // Use DTSearch data as fallback
+      const resumeData = {
+        id: result.id,
+        full_name: result.name,
+        email: result.email,
+        phone: result.phone,
+        location: result.location,
+        current_employer: result.current_employer,
+        years_of_experience: result.years_of_experience || 0,
+        total_experience_months: result.years_of_experience ? result.years_of_experience * 12 : 0,
+        experience_display: `${result.years_of_experience || 0} years`,
+        summary: result.summary,
+        skills: result.skills,
+        skill_keywords: result.skills ? result.skills.split(',').map((s: string) => s.trim()) : [],
+        processing_status: 'completed',
+        file_path: result.file_path,
+        work_experience: result.experience || '',
+        extracted_text: result.text_content || '',
+        upload_date: new Date().toISOString().split('T')[0], // Fallback date
+      }
+      setSelectedResult(resumeData)
+    } finally {
+      setLoadingDetails(false)
+    }
+  }
 
   // Handle input change and get suggestions
   useEffect(() => {
@@ -161,7 +225,7 @@ export function DTSearchPanel({ onSelectResult, className = '' }: DTSearchPanelP
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2">
                 <Zap className="h-6 w-6 text-primary" />
-                <CardTitle className="text-xl">DTSearch Engine</CardTitle>
+                <CardTitle className="text-xl">Database Index Search</CardTitle>
               </div>
               {isConnected && (
                 <Badge variant="secondary" className="gap-1">
@@ -393,14 +457,17 @@ export function DTSearchPanel({ onSelectResult, className = '' }: DTSearchPanelP
               <div className="space-y-4">
                 {results.map((result, index) => (
                   <Card 
-                    key={result.id} 
-                    className="cursor-pointer hover:shadow-md transition-shadow"
-                    onClick={() => onSelectResult?.(result)}
+                    key={`dt-result-${result.id}-${index}-${result.name?.replace(/\s+/g, '-')}`} 
+                    className="hover:shadow-md transition-shadow"
+                    style={{ cursor: 'default' }}
+                    onClick={(e) => e.preventDefault()}
                   >
                     <CardContent className="pt-4">
                       <div className="flex items-start justify-between mb-2">
                         <div className="flex-1">
-                          <h3 className="font-semibold text-lg">{result.name || 'Unknown'}</h3>
+                          <h3 className="font-semibold text-lg">
+                            {result.name || 'Unknown'}
+                          </h3>
                           <p className="text-sm text-muted-foreground">
                             {result.current_employer && `${result.current_employer} • `}
                             {result.location}
@@ -450,6 +517,29 @@ export function DTSearchPanel({ onSelectResult, className = '' }: DTSearchPanelP
                         <span>{result.phone}</span>
                         <span>{result.years_of_experience} years exp.</span>
                       </div>
+
+                      {/* Details Button */}
+                      <div className="flex justify-end mt-3 pt-2 border-t">
+                        <Button 
+                          size="sm" 
+                          variant="outline"
+                          onClick={() => handleViewDetails(result)}
+                          disabled={loadingDetails}
+                          className="text-xs"
+                        >
+                          {loadingDetails ? (
+                            <>
+                              <Loader2 className="h-3 w-3 mr-1 animate-spin" />
+                              Loading...
+                            </>
+                          ) : (
+                            <>
+                              <Eye className="h-3 w-3 mr-1" />
+                              View Details
+                            </>
+                          )}
+                        </Button>
+                      </div>
                     </CardContent>
                   </Card>
                 ))}
@@ -488,6 +578,15 @@ export function DTSearchPanel({ onSelectResult, className = '' }: DTSearchPanelP
             )}
           </CardContent>
         </Card>
+      )}
+
+      {/* Resume Details Dialog */}
+      {selectedResult && (
+        <ResumeCard 
+          resume={selectedResult} 
+          autoOpenDetails={true}
+          onCloseDetails={() => setSelectedResult(null)}
+        />
       )}
     </div>
   )

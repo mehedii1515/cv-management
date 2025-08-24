@@ -79,7 +79,7 @@ echo [INFO] Starting Django application server...
 start "Django-Waitress" /B python production_server.py
 
 REM Wait a moment for Django to start
-timeout /t 3 /nobreak >nul
+ping 127.0.0.1 -n 4 >nul
 
 REM Start Next.js frontend in production mode
 echo [INFO] Starting Next.js frontend server...
@@ -88,7 +88,7 @@ start "Next.js-Frontend" /B npm start
 cd ..
 
 REM Wait a moment for Next.js to start
-timeout /t 5 /nobreak >nul
+ping 127.0.0.1 -n 6 >nul
 
 REM Start Caddy if available
 if %CADDY_AVAILABLE%==1 (
@@ -106,8 +106,9 @@ if %CADDY_AVAILABLE%==1 (
     echo Frontend Direct:  http://localhost:3000
     echo Backend Direct:   http://localhost:8000
     echo.
-    echo Office users should use: http://localhost:8080
-    echo Or use your server's IP: http://[SERVER-IP]:8080
+    echo FOR OFFICE NETWORK ACCESS:
+    echo Office users should use: http://192.168.1.2:8080
+    echo Alternative access: http://localhost:8080 (from server)
     echo ====================================
 ) else (
     echo.
@@ -116,6 +117,10 @@ if %CADDY_AVAILABLE%==1 (
     echo ====================================
     echo Frontend: http://localhost:3000
     echo Backend:  http://localhost:8000
+    echo.
+    echo FOR OFFICE NETWORK ACCESS:
+    echo Frontend: http://192.168.1.2:3000
+    echo Backend:  http://192.168.1.2:8000
     echo.
     echo NOTE: Install Caddy for integrated access
     echo ====================================

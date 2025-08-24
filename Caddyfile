@@ -1,8 +1,8 @@
 # Caddyfile for Windows production deployment
-# Place this file in the same directory as Caddy executable
+# Configured for office network access on 192.168.1.2
 
-# Main application server
-{$DOMAIN:localhost:8080} {
+# Main application server - accessible from office network
+:8080 {
     # Django API routes (highest priority)
     handle /api/* {
         reverse_proxy localhost:8000

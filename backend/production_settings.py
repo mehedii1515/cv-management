@@ -58,9 +58,10 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     '0.0.0.0',
-    # Add your office server IP addresses here
-    # '192.168.1.100',  # Example office IP
-    # '10.0.0.50',      # Example office IP
+    # Office server IP addresses
+    '192.168.1.2',  # Your office server IP
+    # Add additional office network IPs if needed
+    # '192.168.1.*',  # Uncomment if you want to allow entire subnet
 ]
 
 # Session configuration for office users

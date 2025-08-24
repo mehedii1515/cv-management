@@ -18,12 +18,14 @@ import { PageHeader } from '@/components/PageHeader'
 import { useResumes } from '@/hooks/useResumes'
 import { Search, Upload, Users, Activity, Zap, File, ChevronLeft, ChevronRight } from 'lucide-react'
 import type { SelectedFilters } from '@/types/filters'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { Separator } from '@/components/ui/separator'
 import type { FileSearchResult } from '@/components/FileSearchPanel'
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('resumes')
   const [selectedResume, setSelectedResume] = useState<any>(null)
-  const [selectedFile, setSelectedFile] = useState<FileSearchResult | null>(null)
+  const [selectedFile, setSelectedFile] = useState<any>(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedFilters, setSelectedFilters] = useState<SelectedFilters>({
     expertise: [],
@@ -179,7 +181,7 @@ export default function Dashboard() {
             </TabsTrigger>
             <TabsTrigger value="dtsearch" className="text-xs md:text-sm">
               <Zap className="mr-1 md:mr-2 h-3 md:h-4 w-3 md:w-4" />
-              <span className="hidden sm:inline">DTSearch Engine</span>
+              <span className="hidden sm:inline">Database Index Search</span>
               <span className="sm:hidden">DTSearch</span>
             </TabsTrigger>
             <TabsTrigger value="filesearch" className="text-xs md:text-sm">
@@ -346,49 +348,7 @@ export default function Dashboard() {
           </TabsContent>
 
           <TabsContent value="dtsearch" className="mt-6">
-            <DTSearchPanel 
-              onSelectResult={(result) => {
-                // Find the corresponding resume in the database by ID or email
-                const matchingResume = resumes?.find(r => 
-                  r.id === result.id || 
-                  r.email === result.email
-                )
-                
-                if (matchingResume) {
-                  // If we found a matching resume in our database, use that
-                  setSelectedResume(matchingResume)
-                } else {
-                  // Otherwise use the search result directly
-                  // Convert DTSearch hit to a format compatible with Resume type
-                  const formattedResult = {
-                    ...result,
-                    full_name: result.name || 'Unknown',
-                    first_name: result.name?.split(' ')[0] || '',
-                    last_name: result.name?.split(' ').slice(1).join(' ') || '',
-                    current_employer: result.current_employer || '',
-                    years_of_experience: result.years_of_experience || 0,
-                    skill_keywords: result.skills || [],
-                    expertise_areas: result.expertise || [],
-                    // Add any other fields needed for the ResumeCard component
-                  }
-                  setSelectedResume(formattedResult)
-                }
-                
-                // Automatically trigger the ResumeCard's handleViewResume function
-                // This will be handled by the ResumeCard component itself
-              }}
-            />
-            
-            {/* Hidden ResumeCard to handle the dialog popup */}
-            {selectedResume && activeTab === 'dtsearch' && (
-              <div className="hidden">
-                <ResumeCard 
-                  key={`dtsearch-${selectedResume.id || selectedResume.email || Math.random()}`}
-                  resume={selectedResume} 
-                  autoOpenDetails={true} 
-                />
-              </div>
-            )}
+            <DTSearchPanel />
           </TabsContent>
 
           <TabsContent value="filesearch" className="mt-6">
@@ -432,6 +392,8 @@ export default function Dashboard() {
           onClose={() => setSelectedFile(null)}
         />
       )}
+
+      {/* DTSearch Result Dialog - Using proper Dialog component */}
     </div>
   )
 }
