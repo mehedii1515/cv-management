@@ -12,13 +12,17 @@ import Include.Filestream as fs
 OUTPUT_FILE = Config.OUTPUT_FOLDER + "tokens.json"
 OUTPUT_EXCEL = "Resume_Classification.xlsx"
 
-# SOURCE_FOLDER = r"\\server\MSL-DATA\PROJECTS\DEAD PROJECTS"
-# DESTINATION_FOLDER = r"\\server\MSL-DATA\QueryMind CVs"
+SOURCE_FOLDER = r"\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS"
 
-SOURCE_FOLDER = ".\\DROPPED PROJECTS\\"
-DESTINATION_FOLDER = ".\\CVs\\"
+# DESTINATION_FOLDER is no longer used - files are sent directly to Django backend
+# Kept for backward compatibility but not used in current integration workflow
+DESTINATION_FOLDER = r"\\server\MSL-DATA\QueryMind CVs"  # Legacy - not used
 
-LOG_FILE = "processed_files.json"
+# Previous local test folders (commented out)
+# SOURCE_FOLDER = ".\\DROPPED PROJECTS\\"
+# DESTINATION_FOLDER = ".\\CVs\\"
+
+LOG_FILE = "processed_files.txt"
 BATCH_SIZE = 1000
 
 # Resume Parser Integration Settings
@@ -29,19 +33,36 @@ INTEGRATION_ENABLED = True  # Set to True to enable integration
 tokenizer = tiktoken.encoding_for_model("gpt-3.5-turbo")
 
 def load_processed_files():
-    """Load the set of processed file paths from the JSON log."""
+    """Load the set of processed file paths from the text log."""
     if os.path.exists(LOG_FILE):
-        with open(LOG_FILE, "r", encoding="utf-8") as f:
-            try:
-                return set(json.load(f))
-            except json.JSONDecodeError:
-                return set()
+        try:
+            with open(LOG_FILE, "r", encoding="utf-8") as f:
+                return set(line.strip() for line in f if line.strip())
+        except Exception as e:
+            print(f"Error loading processed files: {e}")
+            return set()
     return set()
 
 def save_processed_files(processed_files):
-    """Save the set of processed file paths to the JSON log."""
-    with open(LOG_FILE, "w", encoding="utf-8") as f:
-        json.dump(list(processed_files), f, ensure_ascii=False, indent=2)
+    """Save the set of processed file paths to the text log."""
+    try:
+        with open(LOG_FILE, "w", encoding="utf-8") as f:
+            for file_path in sorted(processed_files):
+                f.write(f"{file_path}\n")
+        print(f"✅ Saved {len(processed_files)} processed files to {LOG_FILE}")
+    except Exception as e:
+        print(f"❌ Error saving processed files: {e}")
+
+def add_processed_file(file_path, processed_files):
+    """Add a single file to processed files and save immediately."""
+    processed_files.add(file_path)
+    # Append to file for better performance
+    try:
+        with open(LOG_FILE, "a", encoding="utf-8") as f:
+            f.write(f"{file_path}\n")
+        print(f"📝 Added to processed: {os.path.basename(file_path)}")
+    except Exception as e:
+        print(f"❌ Error adding processed file: {e}")
 
 def Tokenize_Data(data: str, max_tokens: int = 500):
     tokens = tokenizer.encode(data)
@@ -308,7 +329,7 @@ def PerformForFilesInFolders(Folder: str, DestinationFolder: str):
                 file_name, result, ocr_flag = future.result()
                 results.append([file_name, result, ocr_flag])
                 file_path = future_to_file[future]
-                processed_log.add(file_path)
+                add_processed_file(file_path, processed_log)
                 batch_count += 1
                 
                 # OCR tracking
