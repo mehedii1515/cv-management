@@ -149,3 +149,14 @@ elasticsearch-7.17.0/
 DEPLOYMENT_CHECKLIST.md
 .env*
 *.env
+
+# Sensitive Data & Backups
+backend/data_backup.json
+*.backup
+*.dump
+*.sql
+database_exports/
+credentials/
+secrets/
+.credentials
+DEPLOYMENT_CHECKLIST.md
