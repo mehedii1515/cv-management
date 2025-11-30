@@ -146,3 +146,4 @@ celerybeat.pid
 .dmypy.json
 dmypy.jsonelasticsearch-7.17.0/
 elasticsearch-7.17.0/
+DEPLOYMENT_CHECKLIST.md
