@@ -2,23 +2,28 @@
 
 ## 🏢 **For Office Users**
 
-### **Main Application URL:**
+### **Main Application URLs:**
 ```
-http://192.168.1.2:8080
+http://192.168.1.2:8080   (Office Server)
+http://192.168.1.152:8080 (Your PC)
 ```
 
 **📋 Instructions for Office Employees:**
 
 1. **Open your web browser** (Chrome, Firefox, Edge)
-2. **Type this address:** `http://192.168.1.2:8080`
+2. **Try either address:**
+   - `http://192.168.1.2:8080` (Office Server)
+   - `http://192.168.1.152:8080` (Your PC)
 3. **Press Enter** - You should see the Resume Parser application
+
+**Note:** Use the address of whichever machine is currently running the application.
 
 ---
 
 ## 🖥️ **For IT Administrator (Server Setup)**
 
 ### **Server Requirements:**
-- **Server IP:** 192.168.1.2 (configured)
+- **Server IPs:** 192.168.1.2 (Office Server) or 192.168.1.152 (Your PC)
 - **Required Ports:** 8000, 3000, 8080
 - **Operating System:** Windows
 
@@ -61,8 +66,10 @@ netsh advfirewall firewall add rule name="Resume Parser - Caddy" dir=in action=a
 **2. Test Network Connectivity:**
 ```cmd
 # From office computer, test connectivity:
-ping 192.168.1.2
+ping 192.168.1.2      # Test office server
+ping 192.168.1.152    # Test your PC
 telnet 192.168.1.2 8080
+telnet 192.168.1.152 8080
 ```
 
 **3. Check Firewall:**
@@ -73,6 +80,7 @@ telnet 192.168.1.2 8080
 ```cmd
 # On server, confirm IP address:
 ipconfig
+# Should show either 192.168.1.2 or 192.168.1.152
 ```
 
 ### **Common Issues:**
@@ -132,8 +140,8 @@ ipconfig
 
 | Service | Local Access | Network Access | Purpose |
 |---------|-------------|----------------|---------|
-| **Main App** | http://localhost:8080 | **http://192.168.1.2:8080** | **Use This** |
-| Frontend | http://localhost:3000 | http://192.168.1.2:3000 | Development |
-| Backend | http://localhost:8000 | http://192.168.1.2:8000 | API Only |
+| **Main App** | http://localhost:8080 | **http://192.168.1.2:8080** or **http://192.168.1.152:8080** | **Use This** |
+| Frontend | http://localhost:3000 | http://192.168.1.2:3000 or http://192.168.1.152:3000 | Development |
+| Backend | http://localhost:8000 | http://192.168.1.2:8000 or http://192.168.1.152:8000 | API Only |
 
-**🎯 Office users should use: `http://192.168.1.2:8080`**
+**🎯 Office users should use: `http://192.168.1.2:8080` or `http://192.168.1.152:8080`**

@@ -40,18 +40,34 @@ def view_file(request):
         
         # Check if file exists
         if not os.path.exists(file_path):
-            # Try to find the file in the parent directory structure
-            parent_path = file_path.replace('openai+gemini+unstructured+querymind+watchdog+dt search - Copy', 'openai+gemini+unstructured+querymind')
-            logger.info(f"Trying alternative path: {parent_path}")
-            
-            if os.path.exists(parent_path):
-                file_path = parent_path
-                logger.info(f"Found file at alternative path: {file_path}")
+            # Try to find the file relative to the current media directory
+            if os.path.isabs(file_path):
+                # Extract the relative path from the absolute path
+                relative_path = None
+                if 'media' in file_path:
+                    media_index = file_path.find('media')
+                    relative_path = file_path[media_index:]
+                    alternative_path = os.path.join(settings.BASE_DIR, relative_path)
+                    logger.info(f"Trying alternative path: {alternative_path}")
+                    
+                    if os.path.exists(alternative_path):
+                        file_path = alternative_path
+                        logger.info(f"Found file at alternative path: {file_path}")
+                    else:
+                        logger.error(f"File not found at either path: {file_path} or {alternative_path}")
+                        return Response({
+                            'error': f'File not found: {file_path}',
+                            'tried_paths': [file_path, alternative_path]
+                        }, status=status.HTTP_404_NOT_FOUND)
+                else:
+                    logger.error(f"File not found: {file_path}")
+                    return Response({
+                        'error': f'File not found: {file_path}'
+                    }, status=status.HTTP_404_NOT_FOUND)
             else:
-                logger.error(f"File not found at either path: {file_path} or {parent_path}")
+                logger.error(f"File not found: {file_path}")
                 return Response({
-                    'error': f'File not found: {file_path}',
-                    'tried_paths': [file_path, parent_path]
+                    'error': f'File not found: {file_path}'
                 }, status=status.HTTP_404_NOT_FOUND)
         
         # For HEAD requests, just return success if file exists
@@ -74,21 +90,11 @@ def view_file(request):
             os.path.abspath(settings.MEDIA_ROOT),  # Media directory
             os.path.abspath(os.path.join(settings.BASE_DIR, 'media')),  # Another common location
             # Add the current project path to handle absolute paths from the frontend
-            'D:\\Office work\\Resume Parser\\openai+gemini+unstructured+querymind+watchdog+dt search - Copy\\backend\\media',
-            'D:\\Office work\\Resume Parser\\openai+gemini+unstructured+querymind\\backend\\media',
-            # Add specific uploads directories
-            'D:\\Office work\\Resume Parser\\openai+gemini+unstructured+querymind+watchdog+dt search - Copy\\backend\\media\\uploads',
-            'D:\\Office work\\Resume Parser\\openai+gemini+unstructured+querymind\\backend\\media\\uploads',
+            os.path.abspath(os.path.join(settings.BASE_DIR, 'media')),
+            os.path.abspath(os.path.join(settings.BASE_DIR, 'media', 'uploads')),
             # Add parent directories
-            'D:\\Office work\\Resume Parser\\openai+gemini+unstructured+querymind',
-            'D:\\Office work\\Resume Parser\\openai+gemini+unstructured+querymind+watchdog+dt search - Copy',
-            # Add normalized versions for Windows path flexibility
-            os.path.normpath('D:/Office work/Resume Parser/openai+gemini+unstructured+querymind+watchdog+dt search - Copy/backend/media'),
-            os.path.normpath('D:/Office work/Resume Parser/openai+gemini+unstructured+querymind/backend/media'),
-            os.path.normpath('D:/Office work/Resume Parser/openai+gemini+unstructured+querymind+watchdog+dt search - Copy/backend/media/uploads'),
-            os.path.normpath('D:/Office work/Resume Parser/openai+gemini+unstructured+querymind/backend/media/uploads'),
-            os.path.normpath('D:/Office work/Resume Parser/openai+gemini+unstructured+querymind'),
-            os.path.normpath('D:/Office work/Resume Parser/openai+gemini+unstructured+querymind+watchdog+dt search - Copy'),
+            os.path.abspath(settings.BASE_DIR),
+            os.path.abspath(os.path.dirname(settings.BASE_DIR)),
         ]
         
         # Log all allowed directories for debugging

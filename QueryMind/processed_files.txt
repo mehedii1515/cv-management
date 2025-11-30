@@ -14,6 +14,7 @@
 .\DROPPED PROJECTS\ADB CSRN - TA-7983 AFG_ Rural Finance Expansion - 4 Output 4 (44457-012)\Cost Estimate ADB CMS CSRN - TA-7983 AFG_ Rural Finance Expansion - 4 Output 4 (44457-012).pdf
 .\DROPPED PROJECTS\ADB CSRN - TA-7983 AFG_ Rural Finance Expansion - 4 Output 4 (44457-012)\TOR ADB CMS CSRN - TA-7983 AFG_ Rural Finance Expansion - 4 Output 4 (44457-012).pdf
 .\DROPPED PROJECTS\Abu Raihan M Khalid_Short-term expert.doc
+.\DROPPED PROJECTS\CV - Salim Reza- Finance.docx
 .\DROPPED PROJECTS\CV Harun Nov 2012.doc
 .\DROPPED PROJECTS\CV Heinz Bachmann ADB.doc
 .\DROPPED PROJECTS\CV Iftekhar Ahmed Chaudhury.docx
@@ -64,6 +65,7 @@
 .\DROPPED PROJECTS\Jahangir Alam.doc
 .\DROPPED PROJECTS\Jahangir Kabir-ADB-Sociologist (1).doc
 .\DROPPED PROJECTS\JoeBoyd CVNov2016.pdf
+.\DROPPED PROJECTS\JohnSarker.pdf
 .\DROPPED PROJECTS\KAS Murshid_Poverty_ADB_010107.doc
 .\DROPPED PROJECTS\KAS Murshid_Poverty_ADB_110906.doc
 .\DROPPED PROJECTS\Kashem, - MSP Format - Mar 07-daj_MSL_190307 (1).doc
@@ -108,6 +110,9 @@
 .\DROPPED PROJECTS\TEST_WATCHER\test_2_CV Heinz Bachmann ADB.doc
 .\DROPPED PROJECTS\TEST_WATCHER\test_3_CV Iftekhar Ahmed Chaudhury.docx
 .\DROPPED PROJECTS\ticket.pdf
+\\server\MSL-DATA\Mehedi Hasan\CV Parser - Copy\QueryMind\DROPPED PROJECTS\CV - Salim Reza- Finance.docx
+\\server\MSL-DATA\Mehedi Hasan\CV Parser - Copy\QueryMind\processed_files.txt
+\\server\MSL-DATA\Mehedi Hasan\CV Parser - Copy\backend\media\uploads\CV - Salim Reza- Finance.docx
 \\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\1. BDU Documents\0. BDU Status\000. Submission for Daniel\TOR - Communications Strategy.docx
 \\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\1. BDU Documents\0. BDU Status\000. Submission for Daniel\Technical Proposal.docx
 \\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\1. BDU Documents\0. BDU Status\000. Submission for Daniel\Technical and Financial Proposals - Maxwell Stamp Ltd.zip
@@ -1099,6 +1104,91 @@
 \\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\2. Dead and Cancelled\1. Dead in 2022\BAN-Strengthening the Capacity of Infrastructure Development Company Limited-ADB\Short ToR.pdf
 \\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\2. Dead and Cancelled\1. Dead in 2022\BAN-Strengthening the Capacity of Infrastructure Development Company Limited-ADB\ToR.pdf
 \\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\3. Submitted Proposal\UZB-Pre-feasibility Study for Special Economic Zones-WB\Proposal Stage\Proposal Preparation\Technical Proposal\Final Compilation\05. Section D-Approach, Methodology & Work Plan.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\CWASA-Consultancy Services for Design Review and Construction Supervision\Chattogram Water Supply Improvement Project_CWSIP_SI_GITEC (1).pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Adolescent SPMPSCS\CV Rahena Mental Health.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Adolescent SPMPSCS\CV- Mohibbul - ASD.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Adolescent SPMPSCS\Cover_letter_reaz.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Adolescent SPMPSCS\Reaz_Hossain Resume (3).pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Adolescent SPMPSCS\Resume of Muhib2_2.pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Adolescent SPMPSCS\S.F.Karim - Adolescence Psycho  - CV.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Adolescent SPMPSCS\S.F.Karim - Adolescence Psycho  - CV.pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Adolescent SPMPSCS\Thumbs.db
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Adolescent SPMPSCS\~$F.Karim - Adolescence Psycho  - CV.pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Blended Learning Specialist\CV of M A Rouf Akhand_APR24_MSTAMP.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Blended Learning Specialist\CV_MehdiHassan_Updated_2025_July.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Blended Learning Specialist\CV_MehdiHassan_Updated_2025_July.pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Blended Learning Specialist\~$_MehdiHassan_Updated_2025_July.pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\C V-saifullah.doc
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\C.V .of Rina Akter.doc
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Environment Safeguard Specialist\CV-Dr.J.T.A.Chowdhury-20-August-2025.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Environment Safeguard Specialist\Cover Letter- Kamal.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Environment Safeguard Specialist\Environment Safeguard Specialist_CV-Dr.J.T.A.Chowdhury- July-2024.pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Environment Safeguard Specialist\Environmental Safeguard Specialist _LAISE _KAMAL.doc
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Financial Management Specialist\Ekramul Hossain Resume.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Financial Management Specialist\FM, Rezaudding  FMS.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Financial Management Specialist\Thumbs.db
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Gender Safeguard Specialist\CV Salma Akhter June 2024.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Gender Safeguard Specialist\CV of Dr.Zobaida Akhter-2020.doc
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\ICT in Education Specialist\CV_A. K. M. Shamsul Haque_ 15 May 2024.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\ICT in Education Specialist\CV_A. K. M. Shamsul Haque_ 15 May 2024.pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\ICT in Education Specialist\CV_Dr. Mirja M Shahjamal.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\ICT in Education Specialist\G M Rakibul ISLAM_2024 LAISE.pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\ICT in Education Specialist\Thumbs.db
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Library Development and Reading Habit\CV_Munsi_Librarian.pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Library Development and Reading Habit\Resume of Mahbub Hasan.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Library Development and Reading Habit\Resume of Md. Mosharraf Hossain 23. 2. 2024.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\M&E\CV of Mst. Farhana July 2025.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\M&E\CV of Pranab Kumar Sarker M&E Specialist.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\M&E\CV of Pranab Kumar Sarker M&E Specialist.pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\M&E\~$ of Pranab Kumar Sarker M&E Specialist.pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Procurement Specialist\ABU SAYED MOJUMDER_Procurement.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Procurement Specialist\ABU SAYED MOJUMDER_Procurement.pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Procurement Specialist\Laskar CV_PS.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Procurement Specialist\~$U SAYED MOJUMDER_Procurement.pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Student Assessment Specialist\1--CV1_SAIRA HOSSAIN-2023.pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Student Assessment Specialist\CV Keramot Ali, Student Assessment.doc
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Student Assessment Specialist\CV Monira Jahan.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Student Assessment Specialist\CV OF ROMIJ AHMED 09082017.doc
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Student Assessment Specialist\CV-Professor Md. Ali Hasan[1].docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Student Assessment Specialist\Dr. Jahan CV.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Subject Based Teacher Training- Bangla\BIODATA  ENGLISH(4)[1].doc
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Subject Based Teacher Training- Bangla\Bangla Mujahid Billah Sir.pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Subject Based Teacher Training- English\BIODATA  ENGLISH(4).doc
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Subject Based Teacher Training- English\CV GR April 24.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Subject Based Teacher Training- English\CV GR April 24.pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Subject Based Teacher Training- English\CV_Harun.doc
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Subject Based Teacher Training- English\CV_Harun_Specialist_Subject-based.pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Subject Based Teacher Training- English\Mariam_Teacher Trainer-English.doc
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Subject Based Teacher Training- English\~$ GR April 24.pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Subject Based Teacher Training- Math\Abdul Hannan.pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Subject Based Teacher Training- Math\C.V.- Aziz.doc
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Subject Based Teacher Training- Math\CV math BUET (Hakim) -1-4-2024.pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Subject Based Teacher Training- Math\CV-Halim_IER.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Subject Based Teacher Training- Math\CV2_Halim_IER.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Subject Based Teacher Training- Math\CV_of_Kemal_Reza (Subject-based Teacher’s Training Specialist-Math).pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Subject Based Teacher Training- Math\Hakim math- buet -1-4-2024.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Subject Based Teacher Training- Math\Hakim math- buet -1-4-2024.pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Subject Based Teacher Training- Math\Thumbs.db
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Subject Based Teacher Training- Math\~$kim math- buet -1-4-2024.pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Teacher Training Specialist\CV Evaluation- Esha.xlsx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Teacher Training Specialist\CV Uttam latest 27 April 24_edited.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Teacher Training Specialist\CV Uttam latest 27 April 24_edited.pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Teacher Training Specialist\CV for Kazi Shafique Imam the Teacher Training Specialist.pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Teacher Training Specialist\CV of Manjusree Mitra 13.04.2024.pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Teacher Training Specialist\CV-Nazmul-updated.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Teacher Training Specialist\CV_Harun.pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Teacher Training Specialist\Nazmul CV Formated.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Teacher Training Specialist\Thumbs.db
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Teacher Training Specialist\Zaman Teacher Trainer.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Teacher Training Specialist\~$ Uttam latest 27 April 24_edited.pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Thumbs.db
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Vocation Education Specialist\Mia_Md.Kabir_CV1.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National\Vocation Education Specialist\~$a_Md.Kabir_CV1.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\EoI Preparation\Draft EoI.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\EoI Preparation\Sample\TVET Skill Mapping EOI - HR- Final_RE - Copy.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\EoI Preparation\TVET Skill Mapping EOI - HR- Final_RE - Copy.docx
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\ToR\REOI of PMC.pdf
+\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\ToR\ToR of PMC_LAISE.pdf
 \\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Thumbs.db
 \\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\~$U Status 14-08-23.docx
 \\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\~$U Status 15-10-23.docx
@@ -13491,3 +13581,4 @@
 \\server\MSL-DATA\PROJECTS\DROPPED PROJECTS\Vietnam_Water Sector Investment Program - CS7 _ADB\Supporting Docs\41456-01-vie-mpr1.pdf
 \\server\MSL-DATA\PROJECTS\DROPPED PROJECTS\Vietnam_Water Sector Investment Program - CS7 _ADB\Supporting Docs\41456-02-vie-iee-draft.pdf
 \\server\MSL-DATA\PROJECTS\DROPPED PROJECTS\Vietnam_Water Sector Investment Program - CS7 _ADB\Supporting Docs\41456-023-vie-pp.pdf
+\\server\MSL-DATA\PROJECTS\ONGOING PROJECTS\PAK - Sindh Secondary Education Improvement Project - ADB\6. Final Contract\Contract with SELD\Scanned copy of signed Contract Agreement - TTAF.pdf

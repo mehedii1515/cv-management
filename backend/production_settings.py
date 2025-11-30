@@ -60,6 +60,7 @@ ALLOWED_HOSTS = [
     '0.0.0.0',
     # Office server IP addresses
     '192.168.1.2',  # Your office server IP
+    '192.168.1.152',  # Your PC IP address
     # Add additional office network IPs if needed
     # '192.168.1.*',  # Uncomment if you want to allow entire subnet
 ]

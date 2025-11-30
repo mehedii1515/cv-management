@@ -12,7 +12,7 @@ import Include.Filestream as fs
 OUTPUT_FILE = Config.OUTPUT_FOLDER + "tokens.json"
 OUTPUT_EXCEL = "Resume_Classification.xlsx"
 
-SOURCE_FOLDER = r"\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS"
+SOURCE_FOLDER = r"\\server\MSL-DATA\PROJECTS\BIDDING PROJECTS\Project Management Consulting Firm- LAISE - WB\EoI Stage\CVs\Agreed CV\National"
 
 # DESTINATION_FOLDER is no longer used - files are sent directly to Django backend
 # Kept for backward compatibility but not used in current integration workflow
