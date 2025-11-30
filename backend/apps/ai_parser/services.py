@@ -216,7 +216,7 @@ class ResumeParsingService:
             raise ValueError("OpenAI client not initialized")
         
         # Check if resume text is too large and truncate if necessary
-        max_resume_length = 50000  # Characters
+        max_resume_length = 1000000  # Characters
         if len(resume_text) > max_resume_length:
             logger.warning(
                 f"Resume text too large ({len(resume_text)} chars). Truncating to {max_resume_length} chars.")
@@ -233,7 +233,7 @@ class ResumeParsingService:
                 {"role": "user", "content": prompt}
             ],
             temperature=0.1,  # Lower temperature for more consistent output
-            max_tokens=4000,  # Increased tokens to handle larger resumes
+            max_tokens=200000,  # Increased tokens to handle larger resumes
             response_format={"type": "json_object"}
         )
 

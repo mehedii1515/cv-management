@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 
 // DTSearch API Response Types
-interface DTSearchHit {
+export interface DTSearchHit {
   id: string
   score: number
   name: string
@@ -18,6 +18,33 @@ interface DTSearchHit {
   highlights: {
     [key: string]: string[]
   }
+}
+
+export interface DTSearchResult {
+  hits: DTSearchHit[]
+  total_hits: number
+  max_score: number
+  took: number
+  pagination?: {
+    current_page: number
+    page_size: number
+    has_next: boolean
+    has_previous: boolean
+  }
+  search_info?: {
+    query: string
+    search_type?: string
+    operators_detected?: string[]
+    filters_applied?: any
+    search_time_ms: number
+  }
+}
+
+export interface DTSearchFilters {
+  location?: string[]
+  skills?: string[]
+  experience_range?: [number, number]
+  current_employer?: string[]
 }
 
 interface DTSearchResponse {

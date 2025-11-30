@@ -54,6 +54,7 @@ import { Resume } from '@/types/resume'
 interface ResumeCardProps {
   resume: Resume
   autoOpenDetails?: boolean
+  onCloseDetails?: () => void
 }
 
 interface ExpertiseDetails {
@@ -64,9 +65,9 @@ interface ExpertiseDetails {
   error?: string
 }
 
-export function ResumeCard({ resume, autoOpenDetails = false }: ResumeCardProps) {
+export function ResumeCard({ resume, autoOpenDetails = false, onCloseDetails }: ResumeCardProps) {
   const { toast } = useToast()
-  const [isDetailsOpen, setIsDetailsOpen] = useState(autoOpenDetails)
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false) // Always start with false
   const [selectedExpertise, setSelectedExpertise] = useState<string>('')
   const [expertiseDetails, setExpertiseDetails] = useState<ExpertiseDetails | null>(null)
   const [isExpertiseModalOpen, setIsExpertiseModalOpen] = useState(false)
@@ -76,12 +77,24 @@ export function ResumeCard({ resume, autoOpenDetails = false }: ResumeCardProps)
   const [isCountryModalOpen, setIsCountryModalOpen] = useState(false)
   const [selectedCountry, setSelectedCountry] = useState('')
   const [countryExperiences, setCountryExperiences] = useState<any[]>([])
+
+  // Debug log
+  console.log('ResumeCard rendered:', resume.full_name, 'autoOpenDetails:', autoOpenDetails)
   
   // Effect to update isDetailsOpen when autoOpenDetails changes
-  // This ensures the dialog opens correctly when a new resume is selected
+  // This ensures the dialog opens correctly when a new resume is selected  
   useEffect(() => {
-    setIsDetailsOpen(autoOpenDetails)
-  }, [autoOpenDetails, resume.id, resume.email])
+    console.log('ResumeCard useEffect triggered:', autoOpenDetails)
+    if (autoOpenDetails) {
+      // Force the dialog to open with a small delay to ensure state is fresh
+      setTimeout(() => {
+        console.log('Opening dialog for:', resume.full_name)
+        setIsDetailsOpen(true)
+      }, 10)
+    } else {
+      setIsDetailsOpen(false)
+    }
+  }, [autoOpenDetails])
 
   const handleViewResume = () => {
     setIsDetailsOpen(true)
@@ -873,7 +886,7 @@ export function ResumeCard({ resume, autoOpenDetails = false }: ResumeCardProps)
           <Separator />
 
           {/* Skills */}
-          {resume.skill_keywords && resume.skill_keywords.length > 0 ? (
+          {resume.skill_keywords && Array.isArray(resume.skill_keywords) && resume.skill_keywords.length > 0 ? (
             <div>
               <h4 className="text-sm font-medium mb-2">Top Skills</h4>
               <div className="flex flex-wrap gap-1">
@@ -1029,7 +1042,12 @@ export function ResumeCard({ resume, autoOpenDetails = false }: ResumeCardProps)
       </Card>
 
       {/* Resume Details Dialog */}
-      <Dialog open={isDetailsOpen} onOpenChange={setIsDetailsOpen}>
+      <Dialog open={isDetailsOpen} onOpenChange={(open) => {
+        setIsDetailsOpen(open)
+        if (!open && onCloseDetails) {
+          onCloseDetails()
+        }
+      }}>
         <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
@@ -1155,7 +1173,7 @@ export function ResumeCard({ resume, autoOpenDetails = false }: ResumeCardProps)
             </div>
 
             {/* Skills and Expertise */}
-            {(resume.skill_keywords?.length > 0 || resume.expertise_areas?.length > 0 || resume.sectors?.length > 0) && (
+            {(Array.isArray(resume.skill_keywords) && resume.skill_keywords.length > 0 || resume.expertise_areas?.length > 0 || resume.sectors?.length > 0) && (
               <div>
                 <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
                   <Award className="h-5 w-5" />
@@ -1220,7 +1238,7 @@ export function ResumeCard({ resume, autoOpenDetails = false }: ResumeCardProps)
                     </div>
                   </div>
                 )}
-                {resume.skill_keywords?.length > 0 && (
+                {Array.isArray(resume.skill_keywords) && resume.skill_keywords.length > 0 && (
                   <div>
                     <span className="font-medium text-sm">Skills:</span>
                     <div className="flex flex-wrap gap-1 mt-1">

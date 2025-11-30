@@ -307,7 +307,8 @@ export function SearchFilters({
                 placeholder="Search locations..."
               />
               
-              <FilterCategory
+              {/* Temporarily commented out Experience filter */}
+              {/* <FilterCategory
                 title="Experience"
                 icon={Users}
                 items={availableFilters?.experienceLevels || []}
@@ -315,7 +316,7 @@ export function SearchFilters({
                 onItemToggle={handleFilterToggle('experience_level')}
                 showSearch={false}
                 showYearRanges={true}
-              />
+              /> */}
             </div>
           </div>
         </CardContent>

@@ -1,0 +1,12 @@
+# Additional requirements for DOCX to PDF conversion
+# Add these to your existing requirements.txt or install separately
+
+# Method 1: Python-based DOCX to PDF conversion (Windows compatible)
+docx2pdf==0.1.8
+
+# Method 2: DOCX to HTML to PDF conversion (cross-platform)
+mammoth==1.6.0
+weasyprint==62.3
+
+# Alternative HTML to PDF converter
+reportlab==4.2.2

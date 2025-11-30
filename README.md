@@ -1,247 +1,557 @@
-# Resume Parser - AI-Powered Document Processing
+# CV Management - AI-Powered Resume Parser & Intelligence Platform
 
-An intelligent resume parsing platform that leverages OpenAI GPT and Google Gemini AI to extract structured data from resumes and provide comprehensive talent intelligence.
+An intelligent resume parsing and CV management platform that leverages OpenAI GPT and Google Gemini AI to extract structured data from resumes, classify CVs, and provide comprehensive talent intelligence with advanced search capabilities.
 
-## �️ Setup Instructions
+## 🎯 Project Overview
 
-### Quick Setup
-**Windows:** `setup.bat` → Edit `.env` → `start_servers.bat`
-**Linux/Mac:** `./setup.sh` → Edit `.env` → `./start_servers.sh`
+This is a full-stack application designed to:
+- Parse multiple document formats (PDF, DOCX, DOC, TXT, RTF)
+- Extract structured talent data using advanced AI models
+- Classify and organize CVs by sectors and experience levels
+- Provide batch processing capabilities for large document uploads
+- Enable intelligent search and filtering across parsed resume data
+- Integrate with third-party systems for continuous CV processing
 
-## 📋 Requirements
+## 📋 Key Features
 
-- **Python 3.10, 3.11, or 3.12** (3.13+ not supported by unstructured library)
-- **Node.js 16+** (for frontend)
-- **Internet connection** (for package downloads and AI API calls)
+### Document Processing
+- **Multi-format Support**: PDF, DOCX, DOC, TXT, RTF files
+- **Advanced Text Extraction**: Powered by Unstructured library with Poppler for PDF handling
+- **Batch Processing**: Upload and process multiple resumes simultaneously
+- **Quality Scoring**: Automatic quality assessment of extracted data
 
-## 🔑 API Keys Setup
+### AI & Intelligence
+- **Dual AI Engine**: OpenAI GPT + Google Gemini with automatic fallback
+- **Smart Extraction**: Contact info, skills, experience, education, certifications
+- **NLP Processing**: Token counting, text normalization, data validation
+- **Sector Classification**: Automatic categorization by industry/sector
 
-You'll need API keys from at least one AI provider:
+### Data Management
+- **Advanced Search**: Elasticsearch integration for full-text search
+- **File Indexing**: Efficient file discovery and reindexing capabilities
+- **Resume Management**: CRUD operations with audit trails
+- **Database Options**: SQLite (default) or PostgreSQL
 
-### OpenAI API Key
-1. Visit [OpenAI Platform](https://platform.openai.com/api-keys)
-2. Create an account or sign in
-3. Generate a new API key
-4. Add to `.env`: `OPENAI_API_KEY=sk-your-key-here`
+### User Interface
+- **Modern Frontend**: Next.js with TypeScript, Tailwind CSS, and shadcn/ui components
+- **Responsive Design**: Works seamlessly on desktop and mobile
+- **Admin Interface**: Django admin panel for data management
+- **RESTful API**: Comprehensive API documentation with drf-spectacular
 
-### Google Gemini API Key
-1. Visit [Google AI Studio](https://aistudio.google.com/app/apikey)
-2. Create or sign in to your Google account
-3. Generate an API key
-4. Add to `.env`: `GOOGLE_API_KEY=your-key-here`
+## 🏗️ Technology Stack
 
-## 🌐 Application URLs
-
-- **Frontend Application**: http://localhost:3000/
-- **Backend API**: http://localhost:8000/
-- **Admin Panel**: http://localhost:8000/admin/
-
-## ⚡ Features
-
-- **Multi-format Support**: Parse PDF, DOCX, DOC, TXT files
-- **Dual AI Processing**: OpenAI GPT + Google Gemini with fallback capability
-- **Advanced Document Processing**: Powered by Unstructured library for superior text extraction
-- **Smart Extraction**: Contact info, skills, experience, education, and more
-- **Quality Scoring**: Automatic quality assessment of parsed data
-- **Batch Processing**: Upload multiple resumes at once
-- **Modern Web Interface**: Next.js frontend with Tailwind CSS
-- **RESTful API**: Django REST Framework backend
-- **Admin Interface**: Django admin for data management
-
-## 🛠️ Technology Stack
-
-| Component | Technology |
-|-----------|------------|
-| Frontend | Next.js, TypeScript, Tailwind CSS, shadcn/ui |
-| Backend | Django REST Framework, Python |
-| Database | SQLite (default) / PostgreSQL |
-| AI Integration | OpenAI GPT, Google Gemini API |
-| File Processing | Unstructured, Poppler, Python |
+| Component | Technology | Version |
+|-----------|-----------|---------|
+| **Backend** | Django | 4.2.7 |
+| **API Framework** | Django REST Framework | 3.14.0 |
+| **Frontend** | Next.js | 14.0.4 |
+| **Frontend UI** | React + shadcn/ui | 18.2.0 |
+| **Styling** | Tailwind CSS | Latest |
+| **Database** | SQLite / PostgreSQL | 14+ |
+| **Search Engine** | Elasticsearch | 7.17.0 |
+| **Document Processing** | Unstructured | 0.18.11 |
+| **PDF Handling** | Poppler | 24.08.0 |
+| **OCR Support** | Tesseract | 0.3.10 |
+| **AI APIs** | OpenAI GPT, Google Gemini | Latest |
+| **Task Queue** | Celery + Redis | 5.3.4, 5.0.1 |
+| **Web Server** | Gunicorn | 21.2.0 |
 
 ## 🗂️ Project Structure
 
 ```
-resume-parser/
-├── backend/              # Django backend
+cv-management/
+├── backend/                          # Django REST API & Core Logic
 │   ├── apps/
-│   │   ├── ai_parser/   # AI processing logic
-│   │   ├── resumes/     # Resume management
-│   │   └── core/        # Core utilities
-│   ├── media/           # Uploaded files
-│   ├── venv/            # Python virtual environment
-│   └── manage.py        # Django management
-├── frontend/            # Next.js frontend
+│   │   ├── ai_parser/               # AI parsing & extraction logic
+│   │   │   ├── models.py            # ParseResult, ExtractedData models
+│   │   │   ├── serializers.py       # Data serialization
+│   │   │   ├── views.py             # API endpoints
+│   │   │   └── parser_engine.py     # GPT/Gemini integration
+│   │   ├── resumes/                 # Resume management
+│   │   │   ├── models.py            # Resume, ResumeFile models
+│   │   │   ├── views.py             # CRUD endpoints
+│   │   │   └── serializers.py       # Resume serialization
+│   │   ├── search/                  # Search & indexing
+│   │   │   ├── models.py            # Search indices
+│   │   │   ├── documents.py         # Elasticsearch documents
+│   │   │   ├── views.py             # Search endpoints
+│   │   │   ├── file_views.py        # File search handlers
+│   │   │   ├── signals.py           # Index update signals
+│   │   │   └── management/
+│   │   │       └── commands/
+│   │   │           └── reindex_files.py  # Reindex management command
+│   │   └── core/                    # Shared utilities
+│   │       ├── utils.py             # Helper functions
+│   │       └── validators.py        # Data validators
+│   ├── media/                        # Uploaded resume files
+│   ├── logs/                         # Application logs
+│   ├── staticfiles/                  # Collected static files
+│   ├── poppler-24.08.0/             # Poppler PDF library
+│   ├── db.sqlite3                   # SQLite database
+│   ├── manage.py                    # Django CLI
+│   ├── requirements.txt             # Python dependencies
+│   ├── production_requirements.txt  # Production-specific deps
+│   ├── resume_parser/               # Django project settings
+│   │   ├── settings.py              # Configuration
+│   │   ├── production_settings.py   # Production config
+│   │   ├── urls.py                  # URL routing
+│   │   └── wsgi.py                  # WSGI entry point
+│   └── setup_poppler_env.sh         # Poppler environment setup
+│
+├── frontend/                         # Next.js React Application
 │   ├── src/
-│   │   ├── app/         # App router pages
-│   │   ├── components/  # React components
-│   │   └── lib/         # Utility functions
-│   └── package.json
-├── setup.bat            # Windows automatic setup
-├── setup.sh             # Linux/Mac automatic setup
-├── start_servers.bat    # Windows server launcher
-├── start_servers.sh     # Linux/Mac server launcher
-└── README.md            # This file
+│   │   ├── app/                     # App router pages
+│   │   │   ├── layout.tsx           # Root layout
+│   │   │   ├── page.tsx             # Home page
+│   │   │   ├── upload/              # Upload feature
+│   │   │   ├── search/              # Search feature
+│   │   │   ├── results/             # Results display
+│   │   │   └── admin/               # Admin interface
+│   │   ├── components/              # Reusable React components
+│   │   │   ├── ui/                  # shadcn/ui components
+│   │   │   ├── forms/               # Form components
+│   │   │   └── layout/              # Layout components
+│   │   └── lib/                     # Utility functions
+│   │       ├── api.ts               # API client
+│   │       ├── hooks.ts             # Custom React hooks
+│   │       └── utils.ts             # Helper utilities
+│   ├── public/                      # Static assets
+│   ├── package.json                 # Node dependencies
+│   ├── tsconfig.json                # TypeScript config
+│   ├── tailwind.config.js           # Tailwind config
+│   ├── next.config.js               # Next.js config
+│   └── components.json              # shadcn/ui config
+│
+├── QueryMind/                        # CV Processing & Classification Engine
+│   ├── main.py                      # Main processing workflow
+│   ├── enhanced_main.py             # Enhanced version with improvements
+│   ├── cv_monitoring_service.py     # Monitor new CV uploads
+│   ├── requirements.txt             # QueryMind dependencies
+│   ├── processed_files.txt          # Log of processed files
+│   ├── Include/                     # Shared utilities
+│   │   ├── Config.py                # Configuration settings
+│   │   ├── Filestream.py            # File operations
+│   │   └── Integration.py           # Django integration
+│   └── Resume_Classification.xlsx   # Output classification results
+│
+├── docummentation/                  # Project Documentation
+│   ├── README.md                    # Original documentation
+│   ├── SETUP_GUIDE.md               # Setup instructions
+│   ├── USER_MANUAL.md               # User guide
+│   ├── DEPLOYMENT_GUIDE.md          # Production deployment
+│   ├── PRODUCTION_DEPLOYMENT_GUIDE.md
+│   ├── POSTGRESQL_SETUP.md          # Database setup
+│   ├── DOCX_PDF_CONVERSION_SETUP.md # Document conversion
+│   ├── FILE_INDEX_SEARCH_GUIDE.md   # Search system
+│   ├── FIREWALL_SETUP_PC.md         # Network setup
+│   ├── USER_INSTRUCTIONS.md         # User instructions
+│   ├── OFFICE_ACCESS_GUIDE.md       # Office network access
+│   └── dtSearch_Desktop.pdf         # Search system documentation
+│
+├── Setup & Configuration Scripts
+│   ├── setup.bat                    # Windows automatic setup
+│   ├── setup.sh                     # Linux/Mac automatic setup
+│   ├── start_servers.bat            # Windows server launcher
+│   ├── start_servers.sh             # Linux/Mac server launcher
+│   ├── start_production.bat         # Production startup (Windows)
+│   ├── stop_production.bat          # Production shutdown (Windows)
+│   ├── stop_servers.sh              # Server shutdown (Linux/Mac)
+│   ├── start_network.sh             # Network startup
+│   ├── switch-mode.sh               # Development/Production mode switcher
+│   ├── setup_database.sql           # Database schema
+│   ├── CREATE_POSTGRES_PORTABLE.bat # PostgreSQL portable setup
+│   └── export_database.bat          # Database export/backup
+│
+├── Deployment & Production
+│   ├── Caddyfile                    # Caddy reverse proxy config
+│   ├── render.yaml                  # Render deployment config
+│   ├── .env                         # Environment variables (secret)
+│   ├── .env.example                 # Environment template
+│   └── production_settings.py       # Production configuration
+│
+└── Workflow & Integration
+    ├── complete_workflow_demo.py    # End-to-end workflow example
+    ├── complete_integration_demo.py # Integration demonstration
+    ├── integration_manager.py       # Integration orchestration
+    ├── monitor_integration.py       # Monitor integration health
+    ├── reparse_resume.py            # Reparse existing resumes
+    └── test_*.py                    # Various test files
 ```
 
-## 📋 Extracted Data Fields
+## 🚀 Quick Start
 
-- **Personal Information**: Name, Email, Phone, Location
-- **Professional Details**: Experience, Current Employer, Availability
-- **Skills & Expertise**: Technical skills, soft skills, expertise areas
-- **Education**: Degrees, certifications, institutions
-- **Languages**: Language proficiency levels
-- **Industries & Sectors**: Work domain experience
-- **Portfolio**: Website links, professional profiles
+### Prerequisites
+- **Python 3.10+** (3.11 or 3.12 recommended)
+- **Node.js 16+**
+- **Internet connection** (for API calls)
+- **API Keys**: OpenAI or Google Gemini (or both)
 
-## 🏗️ Manual Setup (Advanced)
+### 1️⃣ Automatic Setup
 
-### Backend Setup
+**Windows:**
+```bash
+setup.bat
+# Edit .env with your API keys
+start_servers.bat
+```
+
+**Linux/Mac:**
+```bash
+./setup.sh
+# Edit .env with your API keys
+./start_servers.sh
+```
+
+### 2️⃣ Manual Setup
+
+#### Backend Setup
 ```bash
 cd backend
-
-# Create virtual environment
 python -m venv venv
 
-# Activate virtual environment
-# Windows:
+# Windows
 venv\Scripts\activate
-# Linux/Mac:
+# Linux/Mac
 source venv/bin/activate
 
-# Install dependencies
 pip install -r requirements.txt
-
-# Setup environment
-cp .env.example .env
-# Edit .env with your API keys
-
-# Setup database
 python manage.py migrate
-
-# Create admin user (optional)
 python manage.py createsuperuser
-
-# Start backend server
 python manage.py runserver
 ```
 
-### Frontend Setup
+#### Frontend Setup
 ```bash
 cd frontend
-
-# Install dependencies
 npm install
-
-# Start frontend server
 npm run dev
 ```
 
-## ⚙️ Configuration Options
+### 3️⃣ Configuration
 
-### AI Provider Settings
-Edit `backend/.env`:
+Create `.env` file in the backend directory:
+```env
+# Django Settings
+SECRET_KEY=your-secret-key-here
+DEBUG=True
+ALLOWED_HOSTS=localhost,127.0.0.1
 
-- `AI_PROVIDER=both` - Use both OpenAI and Gemini with fallback
-- `AI_PROVIDER=openai` - Use only OpenAI
-- `AI_PROVIDER=gemini` - Use only Gemini
+# Database (optional, uses SQLite by default)
+DATABASE_URL=postgresql://user:password@localhost/cvmanagement
 
-### File Upload Settings
-- `MAX_UPLOAD_SIZE=10485760` - Maximum file size (10MB)
-- `ALLOWED_FILE_TYPES=pdf,docx,txt` - Supported file types
+# API Keys (choose at least one)
+OPENAI_API_KEY=sk-your-openai-key
+GOOGLE_API_KEY=your-google-gemini-key
 
-### Model Configuration
-- `OPENAI_MODEL=gpt-4o-mini` - OpenAI model to use
-- `GEMINI_MODEL=gemini-1.5-flash` - Gemini model to use
+# Elasticsearch (optional)
+ELASTICSEARCH_HOST=localhost
+ELASTICSEARCH_PORT=9200
 
-## 🛠️ Troubleshooting
+# Redis (for Celery)
+REDIS_URL=redis://localhost:6379
+
+# CORS Settings
+CORS_ALLOWED_ORIGINS=http://localhost:3000,http://localhost:8000
+```
+
+## 🌐 Access Points
+
+| Component | URL | Default Credentials |
+|-----------|-----|-------------------|
+| Frontend | http://localhost:3000 | - |
+| Backend API | http://localhost:8000 | - |
+| API Documentation | http://localhost:8000/api/schema/ | - |
+| Admin Panel | http://localhost:8000/admin/ | Create during setup |
+
+## 📝 Extracted Data Fields
+
+The system extracts comprehensive information from resumes:
+
+```
+Personal Information
+├── Name
+├── Email
+├── Phone
+└── Location
+
+Professional Details
+├── Current Title
+├── Current Employer
+├── Years of Experience
+├── Industry/Sector
+└── Availability Status
+
+Skills & Expertise
+├── Technical Skills
+├── Soft Skills
+├── Domain Expertise
+└── Certifications
+
+Education
+├── Degrees
+├── Institutions
+├── Graduation Year
+└── GPA/Honors
+
+Languages
+├── Languages Spoken
+└── Proficiency Levels
+
+Additional
+├── Website/Portfolio Links
+├── LinkedIn Profile
+├── Publications
+└── References
+```
+
+## 🔌 API Endpoints
+
+### Resume Management
+- `POST /api/resumes/` - Create resume
+- `GET /api/resumes/` - List resumes
+- `GET /api/resumes/{id}/` - Get resume details
+- `DELETE /api/resumes/{id}/` - Delete resume
+
+### File Upload & Parsing
+- `POST /api/resumes/upload/` - Upload and parse resume
+- `GET /api/resumes/{id}/parsed-data/` - Get parsed data
+- `POST /api/resumes/{id}/reparse/` - Reparse resume
+
+### Search
+- `GET /api/search/` - Full-text search
+- `POST /api/search/advanced/` - Advanced filtering
+- `POST /api/search/reindex/` - Reindex search database
+
+### AI Processing
+- `POST /api/ai-parser/extract/` - Extract from text
+- `GET /api/ai-parser/status/` - Check processing status
+
+## 🛠️ Common Tasks
+
+### Upload Resumes Programmatically
+```python
+import requests
+
+files = {'file': open('resume.pdf', 'rb')}
+response = requests.post(
+    'http://localhost:8000/api/resumes/upload/',
+    files=files
+)
+print(response.json())
+```
+
+### Batch Process CVs from Network Drive
+```bash
+# Edit QueryMind/main.py to point to your CV folder
+# Then run:
+python QueryMind/main.py
+```
+
+### Reindex Search Database
+```bash
+cd backend
+python manage.py reindex_files
+```
+
+### Export Database
+```bash
+# Windows
+export_database.bat
+
+# Linux/Mac
+python backend/manage.py dumpdata > backup.json
+```
+
+## 🔍 Search Capabilities
+
+### Basic Search
+```bash
+GET /api/search/?q=python
+```
+
+### Advanced Search
+```bash
+POST /api/search/advanced/
+{
+  "skills": ["Python", "Django"],
+  "experience_years": {"min": 3, "max": 10},
+  "sectors": ["Technology"],
+  "availability": "immediate"
+}
+```
+
+## 📊 Production Deployment
+
+### Using Caddy Reverse Proxy
+```bash
+# Ensure Caddyfile is configured
+caddy start
+
+# Application will be available at configured domain
+```
+
+### Using Render
+```bash
+# Deploy using render.yaml configuration
+render deploy
+```
+
+### Docker Deployment
+```bash
+# Build Docker image
+docker build -t cv-management .
+
+# Run container
+docker run -p 8000:8000 -p 3000:3000 cv-management
+```
+
+## 🔐 Security Considerations
+
+1. **Environment Variables**: Never commit `.env` files
+2. **API Keys**: Rotate API keys regularly
+3. **Database**: Use strong passwords in production
+4. **CORS**: Configure CORS properly in production
+5. **SSL/TLS**: Use HTTPS in production
+6. **Admin Access**: Restrict admin panel access
+7. **File Uploads**: Validate and scan uploaded files
+8. **Rate Limiting**: Implement rate limiting on API endpoints
+
+## 🐛 Troubleshooting
 
 ### Python Version Issues
 ```bash
-# Check your Python version
+# Ensure Python 3.10+
 python --version
 
-# If you have Python 3.13+, install an older version
-# Use pyenv, conda, or download from python.org
+# Unstructured library requires Python < 3.13
 ```
 
-### Poppler Issues (PDF Processing)
-**Windows**: The setup script automatically downloads Poppler
-**Linux**: `sudo apt-get install poppler-utils`
-**Mac**: `brew install poppler`
-
-### Permission Issues (Linux/Mac)
+### PDF Processing Issues
 ```bash
-# Make scripts executable
-chmod +x setup.sh
-chmod +x start_servers.sh
-chmod +x stop_servers.sh
+# Poppler must be in the system PATH
+# Or set explicitly in settings.py
+POPPLER_PATH = "/path/to/poppler/bin"
 ```
 
-### Port Already in Use
+### Elasticsearch Connection
 ```bash
-# Check what's using the ports
-lsof -i :3000  # Frontend
-lsof -i :8000  # Backend
+# Ensure Elasticsearch is running
+curl localhost:9200
 
-# Kill processes if needed
-kill -9 <PID>
+# If not running, start it:
+# Windows: Use Elasticsearch service
+# Linux/Mac: elasticsearch
 ```
 
-### Missing Dependencies
+### API Key Errors
 ```bash
-# Backend dependencies
-cd backend
-pip install -r requirements.txt
-
-# Frontend dependencies
-cd frontend
-npm install
+# Verify API keys are set correctly
+# Check .env file permissions
+# Ensure keys have required permissions
 ```
 
-## 🔧 Development
+## 📚 Documentation
 
-### Adding New Features
-1. Backend changes go in `backend/apps/`
-2. Frontend changes go in `frontend/src/`
-3. Database changes need migrations: `python manage.py makemigrations`
+- **[SETUP_GUIDE.md](docummentation/SETUP_GUIDE.md)** - Detailed setup instructions
+- **[USER_MANUAL.md](docummentation/USER_MANUAL.md)** - How to use the system
+- **[DEPLOYMENT_GUIDE.md](docummentation/DEPLOYMENT_GUIDE.md)** - Production deployment
+- **[FILE_INDEX_SEARCH_GUIDE.md](docummentation/FILE_INDEX_SEARCH_GUIDE.md)** - Search system documentation
+- **[POSTGRESQL_SETUP.md](docummentation/POSTGRESQL_SETUP.md)** - Database setup
 
-### Testing
+## 🧪 Testing
+
 ```bash
-# Backend tests
+# Run Django tests
 cd backend
 python manage.py test
 
-# Frontend tests
+# Run frontend tests
 cd frontend
 npm test
+
+# Run integration tests
+python complete_workflow_demo.py
 ```
 
-### API Documentation
-Visit http://localhost:8000/api/ when the backend is running
+## 📈 Performance Optimization
 
-## 🐛 Common Issues
+### Database
+- Create indices on frequently searched fields
+- Use PostgreSQL for production
+- Regular database backups
 
-1. **"No module named..."**: Virtual environment not activated
-2. **"Unable to get page count"**: Poppler not installed or not in PATH
-3. **"Connection refused"**: Server not started or wrong port
-4. **"API key invalid"**: Check your API keys in .env file
-5. **"Permission denied"**: Run setup scripts as administrator (Windows) or use sudo (Linux/Mac)
+### Caching
+- Enable Redis caching for API responses
+- Cache parsed resume data
+- Use browser caching for static assets
 
-## 📞 Support
+### Batch Processing
+- Process resumes in batches of 100-1000
+- Use Celery for async tasks
+- Monitor memory usage during batch operations
 
-For issues or questions:
-1. Check the troubleshooting section above
-2. Review error logs in `backend/server.log`
-3. Ensure all requirements are met
-4. Verify API keys are correctly set
+## 🤝 Contributing
 
-## 🔒 Security Notes
+1. Create a feature branch
+2. Make your changes
+3. Test thoroughly
+4. Commit with clear messages
+5. Push to GitHub
+6. Create a Pull Request
 
-- Keep your API keys secure and never commit them to version control
-- For production deployment, set `DEBUG=False` in `.env`
-- Use strong `SECRET_KEY` in production
-- Consider using environment variables instead of `.env` file in production
+## 📄 License
 
-## 📜 License
+[Specify your license here]
 
-This project is for educational and development purposes. Please ensure you comply with the terms of service for OpenAI and Google AI services. 
+## 👥 Support
+
+For issues, questions, or suggestions:
+- Check existing documentation
+- Review the troubleshooting section
+- Contact the development team
+
+## 🔗 External Resources
+
+- [Django Documentation](https://docs.djangoproject.com/)
+- [Next.js Documentation](https://nextjs.org/docs)
+- [OpenAI API Reference](https://platform.openai.com/docs/api-reference)
+- [Google Gemini API](https://aistudio.google.com/)
+- [Elasticsearch Guide](https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html)
+
+## 📊 System Architecture
+
+```
+┌─────────────────┐
+│  Frontend UI    │ (Next.js + React)
+│  (Port 3000)    │
+└────────┬────────┘
+         │ HTTP/REST
+┌────────▼────────┐
+│  Django API     │ (Django REST Framework)
+│  (Port 8000)    │
+├─────────────────┤
+│ • Resume CRUD   │
+│ • AI Processing │
+│ • Search Engine │
+│ • File Upload   │
+└────────┬────────┘
+    ┌───┴──────┬────────────┐
+    │           │            │
+┌───▼──┐  ┌────▼────┐  ┌───▼─────┐
+│SQLite│  │OpenAI   │  │Elastic  │
+│/PG   │  │/Gemini  │  │search   │
+└──────┘  └─────────┘  └─────────┘
+```
+
+## 📝 Recent Updates
+
+- **2025-11-30**: Documentation reorganization and README enhancement
+- Added comprehensive API endpoint documentation
+- Improved project structure documentation
+- Enhanced deployment guidelines
+
+---
+
+**Last Updated**: November 30, 2025  
+**Repository**: cv-management  
+**Branch**: feature/typescript-fixes-and-production-setup

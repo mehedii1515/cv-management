@@ -1,6 +1,13 @@
 """
 Django signals for automatic CV indexing
-Automatically trigger search indexing when CVs are created, updated, or deleted
+Automatically trigger search indexing when CVs are cre            if not created and instance.is_processed:
+                logger.info(f"CV processing completed: {instance.id} - queuing for indexing")
+                index_single_cv.apply_async(args=[instance.id])
+                
+                # Also index the file for file search
+                if instance.file_path:
+                    logger.info(f"CV file processing completed: {instance.file_path} - queuing for file indexing")
+                    index_resume_file.apply_async(args=[instance.id])dated, or deleted
 """
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
@@ -23,31 +30,36 @@ def index_cv_on_save(sender, instance, created, **kwargs):
         **kwargs: Additional keyword arguments
     """
     try:
+        # Debug logging - use print to bypass logging level issues
+        print(f"🔥 SIGNAL FIRED: resume {instance.id}, created={created}, is_processed={instance.is_processed}, file_path={instance.file_path}")
+        
         # Import here to avoid circular imports
         from apps.search.tasks import index_single_cv, index_resume_file
         
         # Only index if the CV is processed
         if instance.is_processed:
             if created:
-                logger.info(f"New CV created: {instance.id} - queuing for indexing")
-                # Delay slightly to ensure the file is fully saved
-                index_single_cv.apply_async(args=[instance.id], countdown=5)
+                print(f"📝 New CV created: {instance.id} - queuing for indexing")
+                # For eager execution, don't use countdown as it may cause issues
+                index_single_cv.apply_async(args=[instance.id])
                 
                 # Also index the file for file search
                 if instance.file_path:
-                    logger.info(f"New CV file: {instance.file_path} - queuing for file indexing")
-                    index_resume_file.apply_async(args=[instance.id], countdown=7)
+                    print(f"📁 New CV file: {instance.file_path} - queuing for file indexing")
+                    result = index_resume_file.apply_async(args=[instance.id])
+                    print(f"✅ File indexing task result: {result}")
             else:
-                logger.info(f"CV updated: {instance.id} - queuing for reindexing")
+                print(f"🔄 CV updated: {instance.id} - queuing for reindexing")
                 # Reindex immediately for updates
                 index_single_cv.apply_async(args=[instance.id])
                 
                 # Also reindex the file
                 if instance.file_path:
-                    logger.info(f"CV file updated: {instance.file_path} - queuing for file reindexing")
-                    index_resume_file.apply_async(args=[instance.id], countdown=2)
+                    print(f"📁 CV file updated: {instance.file_path} - queuing for file reindexing")
+                    result = index_resume_file.apply_async(args=[instance.id])
+                    print(f"✅ File reindexing task result: {result}")
         else:
-            logger.info(f"CV {instance.id} not yet processed - skipping indexing")
+            print(f"⏳ CV {instance.id} not yet processed - skipping indexing")
             
     except Exception as e:
         logger.error(f"Failed to queue CV {instance.id} for indexing: {e}")

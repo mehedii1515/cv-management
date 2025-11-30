@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 class GeminiService:
     """
-    Service to parse resume content using Google Gemini 1.5 Flash
+    Service to parse resume content using Google Gemini 2.5 Flash
     """
 
     def __init__(self):
@@ -21,13 +21,13 @@ class GeminiService:
 
         # Initialize Gemini
         genai.configure(api_key=api_key)
-        self.model_name = getattr(settings, 'GEMINI_MODEL', 'gemini-1.5-flash')
+        self.model_name = getattr(settings, 'GEMINI_MODEL', 'gemini-2.5-flash')
         self.model = genai.GenerativeModel(self.model_name)
         
         # Configure generation parameters
         self.generation_config = genai.types.GenerationConfig(
             temperature=0.1,
-            max_output_tokens=4000,
+            max_output_tokens=200000,
             response_mime_type="application/json"
         )
 
@@ -36,7 +36,7 @@ class GeminiService:
         Use Google Gemini to parse resume text into structured data
         """
         # Check if resume text is too large and truncate if necessary
-        max_resume_length = 50000  # Characters
+        max_resume_length = 1000000  # Characters
         if len(resume_text) > max_resume_length:
             logger.warning(
                 f"Resume text too large ({len(resume_text)} chars). Truncating to {max_resume_length} chars.")

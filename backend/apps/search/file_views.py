@@ -2,6 +2,9 @@
 import os
 import logging
 import mimetypes
+import tempfile
+import subprocess
+from datetime import datetime
 from typing import List, Dict, Any
 from django.http import JsonResponse, FileResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -17,13 +20,13 @@ from .file_search_service import FileSearchService
 logger = logging.getLogger(__name__)
 file_service = FileSearchService()
 
-@api_view(['GET'])
+@api_view(['GET', 'HEAD'])
 @permission_classes([AllowAny])
 def view_file(request):
     """View or download a file"""
     try:
         file_path = request.GET.get('path')
-        logger.info(f"Attempting to view file: {file_path}")
+        logger.info(f"Attempting to view file: {file_path} (method: {request.method})")
         
         if not file_path:
             logger.error("No file path provided")
@@ -37,19 +40,45 @@ def view_file(request):
         
         # Check if file exists
         if not os.path.exists(file_path):
-            # Try to find the file in the parent directory structure
-            parent_path = file_path.replace('openai+gemini+unstructured+querymind+watchdog+dt search - Copy', 'openai+gemini+unstructured+querymind')
-            logger.info(f"Trying alternative path: {parent_path}")
-            
-            if os.path.exists(parent_path):
-                file_path = parent_path
-                logger.info(f"Found file at alternative path: {file_path}")
+            # Try to find the file relative to the current media directory
+            if os.path.isabs(file_path):
+                # Extract the relative path from the absolute path
+                relative_path = None
+                if 'media' in file_path:
+                    media_index = file_path.find('media')
+                    relative_path = file_path[media_index:]
+                    alternative_path = os.path.join(settings.BASE_DIR, relative_path)
+                    logger.info(f"Trying alternative path: {alternative_path}")
+                    
+                    if os.path.exists(alternative_path):
+                        file_path = alternative_path
+                        logger.info(f"Found file at alternative path: {file_path}")
+                    else:
+                        logger.error(f"File not found at either path: {file_path} or {alternative_path}")
+                        return Response({
+                            'error': f'File not found: {file_path}',
+                            'tried_paths': [file_path, alternative_path]
+                        }, status=status.HTTP_404_NOT_FOUND)
+                else:
+                    logger.error(f"File not found: {file_path}")
+                    return Response({
+                        'error': f'File not found: {file_path}'
+                    }, status=status.HTTP_404_NOT_FOUND)
             else:
-                logger.error(f"File not found at either path: {file_path} or {parent_path}")
+                logger.error(f"File not found: {file_path}")
                 return Response({
-                    'error': f'File not found: {file_path}',
-                    'tried_paths': [file_path, parent_path]
+                    'error': f'File not found: {file_path}'
                 }, status=status.HTTP_404_NOT_FOUND)
+        
+        # For HEAD requests, just return success if file exists
+        if request.method == 'HEAD':
+            response = HttpResponse()
+            response['Content-Type'] = mimetypes.guess_type(file_path)[0] or 'application/octet-stream'
+            response['Content-Length'] = os.path.getsize(file_path)
+            response['Access-Control-Allow-Origin'] = '*'
+            response['Access-Control-Allow-Methods'] = 'GET, HEAD, OPTIONS'
+            response['Access-Control-Allow-Headers'] = 'Content-Type'
+            return response
         
         # Security check: Validate the file path is within allowed directories
         # Get the absolute path and normalize it
@@ -61,21 +90,11 @@ def view_file(request):
             os.path.abspath(settings.MEDIA_ROOT),  # Media directory
             os.path.abspath(os.path.join(settings.BASE_DIR, 'media')),  # Another common location
             # Add the current project path to handle absolute paths from the frontend
-            'D:\\Office work\\Resume Parser\\openai+gemini+unstructured+querymind+watchdog+dt search - Copy\\backend\\media',
-            'D:\\Office work\\Resume Parser\\openai+gemini+unstructured+querymind\\backend\\media',
-            # Add specific uploads directories
-            'D:\\Office work\\Resume Parser\\openai+gemini+unstructured+querymind+watchdog+dt search - Copy\\backend\\media\\uploads',
-            'D:\\Office work\\Resume Parser\\openai+gemini+unstructured+querymind\\backend\\media\\uploads',
+            os.path.abspath(os.path.join(settings.BASE_DIR, 'media')),
+            os.path.abspath(os.path.join(settings.BASE_DIR, 'media', 'uploads')),
             # Add parent directories
-            'D:\\Office work\\Resume Parser\\openai+gemini+unstructured+querymind',
-            'D:\\Office work\\Resume Parser\\openai+gemini+unstructured+querymind+watchdog+dt search - Copy',
-            # Add normalized versions for Windows path flexibility
-            os.path.normpath('D:/Office work/Resume Parser/openai+gemini+unstructured+querymind+watchdog+dt search - Copy/backend/media'),
-            os.path.normpath('D:/Office work/Resume Parser/openai+gemini+unstructured+querymind/backend/media'),
-            os.path.normpath('D:/Office work/Resume Parser/openai+gemini+unstructured+querymind+watchdog+dt search - Copy/backend/media/uploads'),
-            os.path.normpath('D:/Office work/Resume Parser/openai+gemini+unstructured+querymind/backend/media/uploads'),
-            os.path.normpath('D:/Office work/Resume Parser/openai+gemini+unstructured+querymind'),
-            os.path.normpath('D:/Office work/Resume Parser/openai+gemini+unstructured+querymind+watchdog+dt search - Copy'),
+            os.path.abspath(settings.BASE_DIR),
+            os.path.abspath(os.path.dirname(settings.BASE_DIR)),
         ]
         
         # Log all allowed directories for debugging
@@ -115,17 +134,94 @@ def view_file(request):
         if not content_type:
             content_type = 'application/octet-stream'  # Default content type
         
-        # Return the file as a response
-        return FileResponse(
+        logger.info(f"Serving file with content type: {content_type}")
+        
+        # For PDF files, ensure proper content type and headers
+        if file_path.lower().endswith('.pdf'):
+            content_type = 'application/pdf'
+        elif file_path.lower().endswith('.docx'):
+            content_type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        elif file_path.lower().endswith('.doc'):
+            content_type = 'application/msword'
+        
+        # Create response with proper headers for browser display
+        response = FileResponse(
             open(file_path, 'rb'),
             content_type=content_type,
             as_attachment=False,
             filename=os.path.basename(file_path)
         )
+        
+        # Add headers to allow iframe embedding and proper display
+        response['X-Frame-Options'] = 'SAMEORIGIN'  # Allow iframe from same origin
+        response['Content-Disposition'] = f'inline; filename="{os.path.basename(file_path)}"'
+        
+        # Add CORS headers if needed for cross-origin requests
+        response['Access-Control-Allow-Origin'] = '*'
+        response['Access-Control-Allow-Methods'] = 'GET, HEAD, OPTIONS'
+        response['Access-Control-Allow-Headers'] = 'Content-Type'
+        
+        return response
     except Exception as e:
         logger.error(f"Error viewing file: {e}")
         return Response({
             'error': 'Failed to view file',
+            'message': str(e)
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_file_info(request):
+    """Get file information and metadata"""
+    try:
+        file_path = request.GET.get('path')
+        if not file_path:
+            return Response({
+                'error': 'No file path provided'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Normalize path
+        file_path = os.path.normpath(file_path)
+        
+        if not os.path.exists(file_path):
+            return Response({
+                'error': f'File not found: {file_path}'
+            }, status=status.HTTP_404_NOT_FOUND)
+        
+        # Get file stats
+        file_stats = os.stat(file_path)
+        file_name = os.path.basename(file_path)
+        file_extension = os.path.splitext(file_name)[1].lower()
+        
+        # Determine content type
+        content_type, _ = mimetypes.guess_type(file_path)
+        if not content_type:
+            if file_extension == '.pdf':
+                content_type = 'application/pdf'
+            elif file_extension == '.docx':
+                content_type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+            elif file_extension == '.doc':
+                content_type = 'application/msword'
+            else:
+                content_type = 'application/octet-stream'
+        
+        return Response({
+            'file_name': file_name,
+            'file_path': file_path,
+            'file_size': file_stats.st_size,
+            'file_size_formatted': f"{file_stats.st_size / (1024*1024):.2f} MB" if file_stats.st_size > 1024*1024 else f"{file_stats.st_size / 1024:.2f} KB",
+            'content_type': content_type,
+            'file_extension': file_extension,
+            'modified_date': datetime.fromtimestamp(file_stats.st_mtime).isoformat(),
+            'created_date': datetime.fromtimestamp(file_stats.st_ctime).isoformat(),
+            'can_preview': content_type in ['application/pdf', 'text/plain', 'image/jpeg', 'image/png', 'image/gif'],
+            'preview_method': 'iframe' if content_type == 'application/pdf' else 'direct' if content_type.startswith('text/') or content_type.startswith('image/') else 'external'
+        })
+        
+    except Exception as e:
+        logger.error(f"Error getting file info: {e}")
+        return Response({
+            'error': 'Failed to get file information',
             'message': str(e)
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -467,3 +563,99 @@ def upload_and_index_file(request):
             'error': 'File upload and indexing failed',
             'message': str(e)
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_file_content(request):
+    """Get extracted text content from indexed files"""
+    try:
+        file_path = request.GET.get('path')
+        logger.info(f"Attempting to get content for file: {file_path}")
+        
+        if not file_path:
+            logger.error("No file path provided")
+            return Response({
+                'error': 'No file path provided'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Normalize path for Windows
+        file_path = os.path.normpath(file_path)
+        logger.info(f"Normalized file path: {file_path}")
+        
+        # Check if file exists
+        if not os.path.exists(file_path):
+            logger.error(f"File not found: {file_path}")
+            return Response({
+                'error': f'File not found: {file_path}'
+            }, status=status.HTTP_404_NOT_FOUND)
+        
+        # Try to get content from search index first
+        try:
+            search_results = file_service.search_files(
+                query="*",
+                filters={'file_path': file_path},
+                page_size=1
+            )
+            
+            if search_results and search_results.get('files') and len(search_results['files']) > 0:
+                indexed_file = search_results['files'][0]
+                extracted_text = indexed_file.get('content', '')
+                
+                if extracted_text:
+                    logger.info(f"Found extracted content in search index")
+                    return Response({
+                        'success': True,
+                        'extracted_text': extracted_text,
+                        'file_path': file_path,
+                        'source': 'search_index'
+                    })
+        
+        except Exception as search_error:
+            logger.warning(f"Could not get content from search index: {search_error}")
+        
+        # Fallback: Extract content directly from file
+        try:
+            from .file_documents import FileDocument
+            
+            file_extension = os.path.splitext(file_path)[1].lower()
+            extracted_text = ""
+            
+            if file_extension == '.pdf':
+                extracted_text = FileDocument.extract_pdf_text(file_path)
+            elif file_extension in ['.docx', '.doc']:
+                extracted_text = FileDocument.extract_word_text(file_path)
+            elif file_extension in ['.txt', '.rtf']:
+                extracted_text = FileDocument.extract_plain_text(file_path)
+            
+            if extracted_text:
+                logger.info(f"Extracted content directly from file")
+                return Response({
+                    'success': True,
+                    'extracted_text': extracted_text,
+                    'file_path': file_path,
+                    'source': 'direct_extraction'
+                })
+            else:
+                logger.warning(f"No content could be extracted from file")
+                return Response({
+                    'error': 'Could not extract text content from file',
+                    'file_path': file_path
+                }, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+        
+        except Exception as extraction_error:
+            logger.error(f"Error extracting content: {extraction_error}")
+            return Response({
+                'error': 'Failed to extract content from file',
+                'message': str(extraction_error)
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+    except Exception as e:
+        logger.error(f"Error getting file content: {e}")
+        return Response({
+            'error': 'Failed to get file content',
+            'message': str(e)
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+# DOCX to PDF conversion system removed per user request
+
+# DOCX to PDF conversion system removed per user request

@@ -173,7 +173,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000", 
     "http://192.168.0.171:3000",
     "http://192.168.0.154:3000",
-    "http://192.168.1.152:3000",
+    "http://192.168.1.2:3000",
 ]
 
 # Add production frontend URL from environment variable
@@ -221,7 +221,7 @@ ALLOWED_FILE_TYPES = os.getenv('ALLOWED_FILE_TYPES', 'pdf,docx,txt').split(',')
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 OPENAI_MODEL = os.getenv('OPENAI_MODEL', 'gpt-4-turbo-preview')
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
-GEMINI_MODEL = os.getenv('GEMINI_MODEL', 'gemini-1.5-flash')
+GEMINI_MODEL = os.getenv('GEMINI_MODEL', 'gemini-2.0-flash')
 AI_PROVIDER = os.getenv('AI_PROVIDER', 'openai')  # 'openai' or 'gemini' or 'both'
 MCP_SERVER_PORT = int(os.getenv('MCP_SERVER_PORT', 3001))
 
@@ -232,6 +232,11 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
+
+# Enable eager execution when Redis is not available (for development)
+# This allows tasks to run synchronously instead of requiring Redis
+CELERY_TASK_ALWAYS_EAGER = os.getenv('CELERY_TASK_ALWAYS_EAGER', 'True').lower() == 'true'
+CELERY_TASK_EAGER_PROPAGATES = True
 
 # Logging
 LOGGING = {
@@ -269,4 +274,4 @@ ELASTICSEARCH_INDEX_SETTINGS = {
             }
         }
     }
-} 
+}

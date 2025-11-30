@@ -26,14 +26,17 @@ export default function DTSearchSection({ onResultsChange, className }: DTSearch
   
   // DTSearch hook
   const {
-    searchResumes,
+    search: searchResumes,
     booleanSearch,
     getSuggestions,
-    getSearchStatus,
+    getSystemStatus: getSearchStatus,
     loading,
     error,
-    lastResults,
-    clearError
+    results: lastResults,
+    totalHits,
+    searchTime,
+    maxScore,
+    clearSearch: clearError
   } = useDTSearch()
   
   // Debounced search term for suggestions
@@ -52,7 +55,7 @@ export default function DTSearchSection({ onResultsChange, className }: DTSearch
   const handleSearch = useCallback(async () => {
     try {
       clearError()
-      let results: DTSearchResult
+      let results: DTSearchResult | null = null
       
       switch (searchMode) {
         case 'boolean':
@@ -67,16 +70,14 @@ export default function DTSearchSection({ onResultsChange, className }: DTSearch
       }
       
       // Notify parent component of results
-      if (onResultsChange) {
+      if (results && onResultsChange) {
         onResultsChange(results.hits)
       }
-      
+
     } catch (err) {
       console.error('Search failed:', err)
     }
-  }, [searchMode, searchTerm, booleanQuery, searchResumes, booleanSearch, onResultsChange, clearError])
-  
-  // Handle Enter key press
+  }, [searchMode, searchTerm, booleanQuery, searchResumes, booleanSearch, onResultsChange, clearError])  // Handle Enter key press
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       handleSearch()
@@ -252,27 +253,21 @@ export default function DTSearchSection({ onResultsChange, className }: DTSearch
           )}
           
           {/* Search Results Summary */}
-          {lastResults && (
+          {lastResults && lastResults.length > 0 && (
             <div className="mt-4 flex items-center justify-between p-3 bg-muted/50 rounded-md">
               <div className="flex items-center gap-4 text-sm">
                 <div className="flex items-center gap-1">
                   <FileText className="w-4 h-4" />
-                  <span>{lastResults.total_hits} resumes found</span>
+                  <span>{totalHits} resumes found</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <Clock className="w-4 h-4" />
-                  <span>{lastResults.took}ms</span>
+                  <span>{searchTime}ms</span>
                 </div>
-                {lastResults.search_info?.operators_detected?.length && (
-                  <div className="flex items-center gap-1">
-                    <Filter className="w-4 h-4" />
-                    <span>{lastResults.search_info.operators_detected.join(', ')}</span>
-                  </div>
-                )}
               </div>
-              {lastResults.max_score > 0 && (
+              {maxScore > 0 && (
                 <Badge variant="outline">
-                  Max Score: {lastResults.max_score.toFixed(2)}
+                  Max Score: {maxScore.toFixed(2)}
                 </Badge>
               )}
             </div>
